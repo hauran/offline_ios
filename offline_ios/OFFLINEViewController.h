@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-
-@interface OFFLINEViewController : UIViewController
+@interface OFFLINEViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
-    UICollectionView *_linesListingView;
+    UICollectionView *_linesCollectionView;
 }
 
 @property (nonatomic, strong) NSMutableData *nycSubwayLinesData;

@@ -15,10 +15,22 @@
 @implementation OFFLINEViewController
 
 @synthesize nycSubwayLinesData = _nycSubwayLinesData;
+
+
 NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
 - (void)viewDidLoad
 {
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    _linesCollectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+    [_linesCollectionView setDataSource:self];
+    [_linesCollectionView setDelegate:self];
+    
+    [_linesCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
+    [_linesCollectionView setBackgroundColor:[UIColor redColor]];
+    
+    [self.view addSubview:_linesCollectionView];
+    
     [super viewDidLoad];
     [self getLines];
 }
@@ -89,6 +101,27 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 15;
+}
+
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+    
+    cell.backgroundColor=[UIColor greenColor];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(50, 50);
 }
 
 @end
