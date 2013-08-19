@@ -7,6 +7,7 @@
 //
 
 #import "OFFLINEViewController.h"
+#import "OFFLINELineCell.h"
 
 @interface OFFLINEViewController ()
 
@@ -21,34 +22,24 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
 - (void)viewDidLoad
 {
-    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
-    _linesCollectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
-    [_linesCollectionView setDataSource:self];
-    [_linesCollectionView setDelegate:self];
-    
-    [_linesCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
-    [_linesCollectionView setBackgroundColor:[UIColor redColor]];
-    
-    [self.view addSubview:_linesCollectionView];
     
     [super viewDidLoad];
     [self getLines];
 }
 
-
-//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-//    NSLog(@"didReceiveResponse");
-//    [self.nycSubwayLinesData setLength:0];
-//}
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.nycSubwayLinesData appendData:data];
 }
 
-//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-//    NSLog(@"didFailWithError");
-//    NSLog([NSString stringWithFormat:@"Connection failed: %@", [error description]]);
-//}
+- (void)getLines{
+    self.nycSubwayLinesData = [NSMutableData data];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", OFFLINE_SERVER, @"lines"]]];
+    
+    NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [conn start];
+}
+
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     NSLog(@"connectionDidFinishLoading");
@@ -58,9 +49,11 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
     NSError *myError = nil;
     NSArray *res = [NSJSONSerialization JSONObjectWithData:self.nycSubwayLinesData options:NSJSONReadingMutableLeaves error:&myError];
     
-    for(NSDictionary *line in res) {
-        NSLog(@"Line: %@", [line objectForKey:@"route_short_name"]);
-    }
+//    for(NSDictionary *line in res) {
+//        NSLog(@"Line: %@", [line objectForKey:@"route_short_name"]);
+//    }
+    
+    [self setUpCollectionView];
     
 //    SBJsonParser *parser;
 //    NSLog(@"%@", [parser objectWithString:res]);
@@ -88,40 +81,51 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 }
 
 
-- (void)getLines{
-    self.nycSubwayLinesData = [NSMutableData data];
+- (void) setUpCollectionView {
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    _linesCollectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+    [_linesCollectionView setDataSource:self];
+    [_linesCollectionView setDelegate:self];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", OFFLINE_SERVER, @"lines"]]];
+    [_linesCollectionView registerClass:[OFFLINELineCell class] forCellWithReuseIdentifier:@"cell"];
+    [_linesCollectionView setBackgroundColor:[UIColor redColor]];
     
-    NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [conn start];
+    [self.view addSubview:_linesCollectionView];
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 15;
+    NSError *myError = nil;
+    NSArray *res = [NSJSONSerialization JSONObjectWithData:self.nycSubwayLinesData options:NSJSONReadingMutableLeaves error:&myError];
+    return [res count];
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+//    UICollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
+//    
+    NSError *myError = nil;
+    NSArray *res = [NSJSONSerialization JSONObjectWithData:self.nycSubwayLinesData options:NSJSONReadingMutableLeaves error:&myError];
+//
+    NSString *routeId = [[res objectAtIndex:indexPath.item] objectForKey:@"route_short_name"];
+//
+//    OFFLINELineCell *lineCell = [[OFFLINELineCell alloc] init];
+//    lineCell.routeId = route_id;
+//    
+//    cell.backgroundColor=[UIColor greenColor];
+//    return cell;
     
-    cell.backgroundColor=[UIColor greenColor];
+    OFFLINELineCell *cell = (OFFLINELineCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell"
+                                                                               forIndexPath:indexPath];
+    [cell setRouteLabel:routeId];
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(50, 50);
+    return CGSizeMake(100, 50);
 }
 
 @end

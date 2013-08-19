@@ -31,6 +31,7 @@
 		C5596E0817BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DFC17BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m */; };
 		C5596E0917BD3E8100EB9740 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DFE17BD3E8100EB9740 /* SBJsonStreamWriterState.m */; };
 		C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0017BD3E8100EB9740 /* SBJsonWriter.m */; };
+		C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		C5596DFE17BD3E8100EB9740 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
 		C5596DFF17BD3E8100EB9740 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		C5596E0017BD3E8100EB9740 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINELineCell.h; sourceTree = "<group>"; };
+		C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINELineCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,8 @@
 				C5596DC717BD3CDF00EB9740 /* Main.storyboard */,
 				C5596DCA17BD3CDF00EB9740 /* OFFLINEViewController.h */,
 				C5596DCB17BD3CDF00EB9740 /* OFFLINEViewController.m */,
+				C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */,
+				C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */,
 				C5596DCD17BD3CDF00EB9740 /* Images.xcassets */,
 				C5596DEB17BD3E6400EB9740 /* JSON Framework */,
 				C5596DBC17BD3CDF00EB9740 /* Supporting Files */,
@@ -319,6 +324,7 @@
 				C5596E0317BD3E8100EB9740 /* SBJsonStreamParserAccumulator.m in Sources */,
 				C5596DC217BD3CDF00EB9740 /* main.m in Sources */,
 				C5596E0517BD3E8100EB9740 /* SBJsonStreamParserState.m in Sources */,
+				C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */,
 				C5596E0817BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				C5596E0917BD3E8100EB9740 /* SBJsonStreamWriterState.m in Sources */,
 				C5596DCC17BD3CDF00EB9740 /* OFFLINEViewController.m in Sources */,
