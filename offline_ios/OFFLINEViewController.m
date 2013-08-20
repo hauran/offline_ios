@@ -17,6 +17,10 @@
 
 @synthesize nycSubwayLinesData = _nycSubwayLinesData;
 
+CGRect screenBound;
+CGFloat screenWidth;
+CGFloat screenHeight;
+
 
 NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
@@ -24,6 +28,9 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 {
     
     [super viewDidLoad];
+    screenBound = [[UIScreen mainScreen] bounds];
+    screenWidth = screenBound.size.width;
+    screenHeight = screenBound.size.height;
     [self getLines];
 }
 
@@ -82,13 +89,15 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
 
 - (void) setUpCollectionView {
+    CGRect rect = CGRectMake(10, 100, screenWidth - 20, screenHeight-100);
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
-    _linesCollectionView=[[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
+    _linesCollectionView=[[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
     [_linesCollectionView setDataSource:self];
     [_linesCollectionView setDelegate:self];
     
     [_linesCollectionView registerClass:[OFFLINELineCell class] forCellWithReuseIdentifier:@"cell"];
-    [_linesCollectionView setBackgroundColor:[UIColor redColor]];
+    [_linesCollectionView setBackgroundColor:[UIColor clearColor]];
+    [_linesCollectionView setOpaque:NO];
     
     [self.view addSubview:_linesCollectionView];
 }
@@ -125,7 +134,17 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(100, 50);
+    return CGSizeMake(80, 80);
+}
+
+- (void)collectionView:(UICollectionView *)colView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
+    cell.contentView.backgroundColor = [UIColor blueColor];
+}
+
+- (void)collectionView:(UICollectionView *)colView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
+    cell.contentView.backgroundColor = nil;
 }
 
 @end
