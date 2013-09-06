@@ -139,7 +139,7 @@ NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 
 - (void)collectionView:(UICollectionView *)colView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
-    cell.contentView.backgroundColor = [UIColor blueColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)collectionView:(UICollectionView *)colView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
