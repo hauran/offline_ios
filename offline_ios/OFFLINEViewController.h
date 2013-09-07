@@ -14,5 +14,6 @@
     UICollectionView *_linesCollectionView;
 }
 
-@property (nonatomic, strong) NSMutableData *nycSubwayLinesData;
+//@property (nonatomic, strong) NSMutableData *nycSubwayLinesData;
+@property (nonatomic, strong) NSMutableArray *nycSubwayLinesData;
 @end

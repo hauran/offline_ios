@@ -11,6 +11,6 @@
 @interface OFFLINELineCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel *label;
-- (void)setRouteLabel:(NSString *)route;
+- (void)setLineDetails:(NSString *)line bgColor:(UIColor *)bgColor textColor:(UIColor *)textColor;
 
 @end

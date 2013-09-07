@@ -21,11 +21,9 @@
         self.label.textAlignment = NSTextAlignmentCenter;
         self.label.adjustsFontSizeToFitWidth = YES;
         
-        self.label.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
         self.label.layer.borderColor = [UIColor clearColor].CGColor;
         self.label.layer.borderWidth = 4.0;
         self.label.layer.cornerRadius = 40;
-        
         
         UITapGestureRecognizer *selectLine = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectLine:)];
         selectLine.numberOfTapsRequired = 1;
@@ -33,13 +31,15 @@
         [self.label addGestureRecognizer:selectLine];
         [self addSubview:self.label];
         
-        [self setRouteLabel:@""];
+        [self setLineDetails:@"" bgColor:nil textColor:nil];
     }
     return self;
 }
 
-- (void)setRouteLabel:(NSString *) route {
-    self.label.text = route;
+- (void)setLineDetails:(NSString *)line bgColor:(UIColor *)bgColor textColor:(UIColor *)textColor{
+    self.label.text = line;
+    self.label.layer.backgroundColor = bgColor.CGColor;
+    self.label.textColor = textColor;
 }
 
 - (NSString *) getRouteLabel {

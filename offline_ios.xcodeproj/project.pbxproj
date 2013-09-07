@@ -32,6 +32,7 @@
 		C5596E0917BD3E8100EB9740 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DFE17BD3E8100EB9740 /* SBJsonStreamWriterState.m */; };
 		C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0017BD3E8100EB9740 /* SBJsonWriter.m */; };
 		C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */; };
+		C5A1939317DAD78E0029E830 /* OFFLINELineData.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A1939217DAD78E0029E830 /* OFFLINELineData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		C5596E0017BD3E8100EB9740 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINELineCell.h; sourceTree = "<group>"; };
 		C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINELineCell.m; sourceTree = "<group>"; };
+		C5A1939117DAD78E0029E830 /* OFFLINELineData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINELineData.h; sourceTree = "<group>"; };
+		C5A1939217DAD78E0029E830 /* OFFLINELineData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINELineData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +152,8 @@
 				C5596DC417BD3CDF00EB9740 /* OFFLINEAppDelegate.h */,
 				C5596DC517BD3CDF00EB9740 /* OFFLINEAppDelegate.m */,
 				C5596DC717BD3CDF00EB9740 /* Main.storyboard */,
+				C5A1939117DAD78E0029E830 /* OFFLINELineData.h */,
+				C5A1939217DAD78E0029E830 /* OFFLINELineData.m */,
 				C5596DCA17BD3CDF00EB9740 /* OFFLINEViewController.h */,
 				C5596DCB17BD3CDF00EB9740 /* OFFLINEViewController.m */,
 				C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */,
@@ -323,6 +328,7 @@
 				C5596E0617BD3E8100EB9740 /* SBJsonStreamTokeniser.m in Sources */,
 				C5596E0317BD3E8100EB9740 /* SBJsonStreamParserAccumulator.m in Sources */,
 				C5596DC217BD3CDF00EB9740 /* main.m in Sources */,
+				C5A1939317DAD78E0029E830 /* OFFLINELineData.m in Sources */,
 				C5596E0517BD3E8100EB9740 /* SBJsonStreamParserState.m in Sources */,
 				C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */,
 				C5596E0817BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m in Sources */,
