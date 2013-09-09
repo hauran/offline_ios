@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
+		C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = C519DB3417DD809600438E4E /* NSString+FontAwesome.m */; };
 		C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
 		C5596DB817BD3CDF00EB9740 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */; };
 		C5596DBA17BD3CDF00EB9740 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB917BD3CDF00EB9740 /* UIKit.framework */; };
@@ -46,6 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C519DB3217DD809600438E4E /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = fontawesome/FontAwesome.ttf; sourceTree = "<group>"; };
+		C519DB3317DD809600438E4E /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FontAwesome.h"; path = "fontawesome/NSString+FontAwesome.h"; sourceTree = "<group>"; };
+		C519DB3417DD809600438E4E /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FontAwesome.m"; path = "fontawesome/NSString+FontAwesome.m"; sourceTree = "<group>"; };
 		C5596DB217BD3CDF00EB9740 /* offline_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = offline_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5596DB517BD3CDF00EB9740 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -116,6 +121,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C519DB3117DD808700438E4E /* fontawesome */ = {
+			isa = PBXGroup;
+			children = (
+				C519DB3217DD809600438E4E /* FontAwesome.ttf */,
+				C519DB3317DD809600438E4E /* NSString+FontAwesome.h */,
+				C519DB3417DD809600438E4E /* NSString+FontAwesome.m */,
+			);
+			name = fontawesome;
+			sourceTree = "<group>";
+		};
 		C5596DA917BD3CDF00EB9740 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +164,7 @@
 		C5596DBB17BD3CDF00EB9740 /* offline_ios */ = {
 			isa = PBXGroup;
 			children = (
+				C519DB3117DD808700438E4E /* fontawesome */,
 				C5596DC417BD3CDF00EB9740 /* OFFLINEAppDelegate.h */,
 				C5596DC517BD3CDF00EB9740 /* OFFLINEAppDelegate.m */,
 				C5596DC717BD3CDF00EB9740 /* Main.storyboard */,
@@ -302,6 +318,7 @@
 				C5596DCE17BD3CDF00EB9740 /* Images.xcassets in Resources */,
 				C5596DC017BD3CDF00EB9740 /* InfoPlist.strings in Resources */,
 				C5596DC917BD3CDF00EB9740 /* Main.storyboard in Resources */,
+				C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +349,7 @@
 				C5596E0517BD3E8100EB9740 /* SBJsonStreamParserState.m in Sources */,
 				C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */,
 				C5596E0817BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */,
 				C5596E0917BD3E8100EB9740 /* SBJsonStreamWriterState.m in Sources */,
 				C5596DCC17BD3CDF00EB9740 /* OFFLINEViewController.m in Sources */,
 				C5596E0217BD3E8100EB9740 /* SBJsonStreamParser.m in Sources */,

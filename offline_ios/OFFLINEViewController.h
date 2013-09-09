@@ -14,6 +14,6 @@
     UICollectionView *_linesCollectionView;
 }
 
-//@property (nonatomic, strong) NSMutableData *nycSubwayLinesData;
+- (void)dismissKeyboard;
 @property (nonatomic, strong) NSMutableArray *nycSubwayLinesData;
 @end

@@ -9,6 +9,8 @@
 #import "OFFLINEViewController.h"
 #import "OFFLINELineCell.h"
 #import "OFFLINELineData.h"
+#import <QuartzCore/QuartzCore.h>
+#import "fontawesome/NSString+FontAwesome.m"
 
 @interface OFFLINEViewController ()
 
@@ -21,9 +23,13 @@
 CGRect screenBound;
 CGFloat screenWidth;
 CGFloat screenHeight;
+UITextField *searchTextField;
+UIScrollView *scrollView;
+UIColor *textColor;
 
 NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 NSDictionary *lineDetails;
+NSMutableArray *collectionLineCellArray;
 
 - (void)viewDidLoad
 {
@@ -32,15 +38,50 @@ NSDictionary *lineDetails;
     screenBound = [[UIScreen mainScreen] bounds];
     screenWidth = screenBound.size.width;
     screenHeight = screenBound.size.height;
-    [self createLines];
-    NSLog(@"%@", self.nycSubwayLinesData);
+    [self setUp];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+//    NSLog(@"%@", self.nycSubwayLinesData);
 }
 
-- (void)createLines{
+- (void)setUp{
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height)];
+    textColor = [UIColor colorWithRed:129/255.0f green:129/255.0f blue:129/255.0f alpha:1.0f];
+    UILabel *searchLabel = [[UILabel alloc] init];
+    searchLabel.font = [UIFont systemFontOfSize:23.0];
+    searchLabel.textColor = textColor;
+    searchLabel.text = @"What are you looking for?";
+    searchLabel.frame = CGRectMake(10, 0, screenWidth-20, 50);
+    [scrollView addSubview:searchLabel];
+
+    CGRect frame = CGRectMake(10, 50, screenWidth - 20, 50);
+    searchTextField = [[UITextField alloc] initWithFrame:frame];
+    searchTextField.borderStyle = UITextBorderStyleRoundedRect;
+    searchTextField.textColor = [UIColor blackColor];
+    searchTextField.font = [UIFont systemFontOfSize:23.0];
+    searchTextField.placeholder = @"ramen, date spot, museum";
+    searchTextField.backgroundColor = [UIColor clearColor];
+    searchTextField.autocorrectionType = UITextAutocorrectionTypeYes;
+    searchTextField.keyboardType = UIKeyboardTypeDefault;
+    searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [scrollView addSubview:searchTextField];
+    
+    UILabel *lineLabel = [[UILabel alloc] init];
+    lineLabel.font = [UIFont systemFontOfSize:23.0];
+    lineLabel.textColor = textColor;
+    lineLabel.text = @"Which subway line?";
+    lineLabel.frame = CGRectMake(10, 120, screenWidth-20, 50);
+    [scrollView addSubview:lineLabel];
+    
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
+    collectionLineCellArray = [[NSMutableArray alloc] init];
     self.nycSubwayLinesData = [lineData createLineData];
 
-    CGRect rect = CGRectMake(10, 100, screenWidth - 20, screenHeight-100);
+    CGRect rect = CGRectMake(10, 170, screenWidth - 20, 620);
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     _linesCollectionView=[[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
     [_linesCollectionView setDataSource:self];
@@ -49,7 +90,27 @@ NSDictionary *lineDetails;
     [_linesCollectionView registerClass:[OFFLINELineCell class] forCellWithReuseIdentifier:@"cell"];
     [_linesCollectionView setBackgroundColor:[UIColor clearColor]];
     [_linesCollectionView setOpaque:NO];
-    [self.view addSubview:_linesCollectionView];
+    [scrollView addSubview:_linesCollectionView];
+    
+    
+    UIButton *searchButton = [[UIButton alloc] init];
+    [searchButton setBackgroundColor:[UIColor darkGrayColor]];
+    [searchButton.titleLabel setFont:[UIFont systemFontOfSize:25.0]];
+    [searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [searchButton setTitle: @"Search" forState: UIControlStateNormal];
+    searchButton.layer.cornerRadius = 10;
+    searchButton.frame = CGRectMake(15, 825, 120.0, 60.0);
+    [scrollView addSubview:searchButton];
+    
+//    UITapGestureRecognizer *newAlarmModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showNewAlarmModal:)];
+//    newAlarmModal.numberOfTapsRequired = 1;
+//    [newAlarmButton setUserInteractionEnabled:YES];
+//    [newAlarmButton addGestureRecognizer:newAlarmModal];
+//    [self.view addSubview:newAlarmButton];
+    
+    [self.view addSubview:scrollView];
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 920);
+    
 }
 
 
@@ -65,12 +126,16 @@ NSDictionary *lineDetails;
     NSMutableDictionary *lineDetails = [self.nycSubwayLinesData objectAtIndex:indexPath.item];
     NSString *line = [lineDetails objectForKey:@"line"];
     UIColor *bgColor = [lineDetails objectForKey:@"bgColor"];
+    UIColor *darkBorder = [lineDetails objectForKey:@"darkBorder"];
     UIColor *textColor = [lineDetails objectForKey:@"textColor"];
 
     OFFLINELineCell *cell = (OFFLINELineCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cell"
                                                                                forIndexPath:indexPath];
     
+    [cell setLinesCollectionViewControllers: collectionLineCellArray];
     [cell setLineDetails:line bgColor:bgColor textColor:textColor];
+    [collectionLineCellArray addObject: cell];
+    cell.darkBorder = darkBorder;
     return cell;
 }
 
@@ -88,5 +153,12 @@ NSDictionary *lineDetails;
     UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
     cell.contentView.backgroundColor = nil;
 }
+
+-(void)dismissKeyboard {
+    [searchTextField resignFirstResponder];
+}
+
+
+
 
 @end
