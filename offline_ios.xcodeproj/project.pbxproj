@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		945DA89917DE7EF300AB285F /* UIButtonHightlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89817DE7EF300AB285F /* UIButtonHightlight.m */; };
+		945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */; };
 		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
 		C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = C519DB3417DD809600438E4E /* NSString+FontAwesome.m */; };
 		C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
@@ -48,6 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		945DA89717DE7EF300AB285F /* UIButtonHightlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIButtonHightlight.h; sourceTree = "<group>"; };
+		945DA89817DE7EF300AB285F /* UIButtonHightlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIButtonHightlight.m; sourceTree = "<group>"; };
+		945DA89A17DE81A900AB285F /* OFFLINESearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINESearchResultsViewController.h; sourceTree = "<group>"; };
+		945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINESearchResultsViewController.m; sourceTree = "<group>"; };
 		C519DB3217DD809600438E4E /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = fontawesome/FontAwesome.ttf; sourceTree = "<group>"; };
 		C519DB3317DD809600438E4E /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FontAwesome.h"; path = "fontawesome/NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		C519DB3417DD809600438E4E /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FontAwesome.m"; path = "fontawesome/NSString+FontAwesome.m"; sourceTree = "<group>"; };
@@ -174,9 +180,13 @@
 				C5596DCB17BD3CDF00EB9740 /* OFFLINEViewController.m */,
 				C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */,
 				C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */,
+				945DA89A17DE81A900AB285F /* OFFLINESearchResultsViewController.h */,
+				945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */,
 				C5596DCD17BD3CDF00EB9740 /* Images.xcassets */,
 				C5596DEB17BD3E6400EB9740 /* JSON Framework */,
 				C5596DBC17BD3CDF00EB9740 /* Supporting Files */,
+				945DA89717DE7EF300AB285F /* UIButtonHightlight.h */,
+				945DA89817DE7EF300AB285F /* UIButtonHightlight.m */,
 			);
 			path = offline_ios;
 			sourceTree = "<group>";
@@ -340,9 +350,11 @@
 				C5596DC617BD3CDF00EB9740 /* OFFLINEAppDelegate.m in Sources */,
 				C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */,
 				C5596E0417BD3E8100EB9740 /* SBJsonStreamParserAdapter.m in Sources */,
+				945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */,
 				C5596E0117BD3E8100EB9740 /* SBJsonParser.m in Sources */,
 				C5596E0717BD3E8100EB9740 /* SBJsonStreamWriter.m in Sources */,
 				C5596E0617BD3E8100EB9740 /* SBJsonStreamTokeniser.m in Sources */,
+				945DA89917DE7EF300AB285F /* UIButtonHightlight.m in Sources */,
 				C5596E0317BD3E8100EB9740 /* SBJsonStreamParserAccumulator.m in Sources */,
 				C5596DC217BD3CDF00EB9740 /* main.m in Sources */,
 				C5A1939317DAD78E0029E830 /* OFFLINELineData.m in Sources */,

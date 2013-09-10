@@ -15,6 +15,8 @@
 
 
 @synthesize darkBorder = _darkBorder;
+@synthesize mainViewController = _mainViewController;
+
 NSMutableArray *parentLinesCollection;
 
 - (id)initWithFrame:(CGRect)frame {
@@ -29,8 +31,8 @@ NSMutableArray *parentLinesCollection;
         self.label.adjustsFontSizeToFitWidth = YES;
         
         self.label.layer.borderColor = [UIColor clearColor].CGColor;
-        self.label.layer.borderWidth = 6.0;
-        self.label.layer.cornerRadius = 40;
+        self.label.layer.borderWidth = 4.0;
+        self.label.layer.cornerRadius = 35;
         
         UITapGestureRecognizer *selectLine = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectLine:)];
         selectLine.numberOfTapsRequired = 1;
@@ -75,8 +77,11 @@ NSMutableArray *parentLinesCollection;
     [UIView commitAnimations];
     
     /* Is this the correct way? */
-    [[[OFFLINEViewController alloc] init] dismissKeyboard];
-    NSLog(@"%@", [(OFFLINELineCell *)line getRouteLabel]);
+    [_mainViewController dismissKeyboard];
+    _mainViewController.selectedLine =[(OFFLINELineCell *)line getRouteLabel];
+    
+    
+    NSLog(@"%@",_mainViewController.selectedLine);
 }
 
 - (void)setLinesCollectionViewControllers:(NSMutableArray *)linesCollection; {

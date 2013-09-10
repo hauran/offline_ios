@@ -9,8 +9,11 @@
 #import "OFFLINEViewController.h"
 #import "OFFLINELineCell.h"
 #import "OFFLINELineData.h"
+#import "OFFLINESearchResultsViewController.h"
+#import "UIButtonHightlight.h"
 #import <QuartzCore/QuartzCore.h>
 #import "fontawesome/NSString+FontAwesome.m"
+
 
 @interface OFFLINEViewController ()
 
@@ -19,6 +22,7 @@
 @implementation OFFLINEViewController
 
 @synthesize nycSubwayLinesData = _nycSubwayLinesData;
+@synthesize selectedLine = _selectedLine;
 
 CGRect screenBound;
 CGFloat screenWidth;
@@ -26,6 +30,7 @@ CGFloat screenHeight;
 UITextField *searchTextField;
 UIScrollView *scrollView;
 UIColor *textColor;
+OFFLINESearchResultsViewController *searchResults;
 
 NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 NSDictionary *lineDetails;
@@ -81,7 +86,7 @@ NSMutableArray *collectionLineCellArray;
     collectionLineCellArray = [[NSMutableArray alloc] init];
     self.nycSubwayLinesData = [lineData createLineData];
 
-    CGRect rect = CGRectMake(10, 170, screenWidth - 20, 620);
+    CGRect rect = CGRectMake(20, 170, screenWidth - 40, 630);
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     _linesCollectionView=[[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
     [_linesCollectionView setDataSource:self];
@@ -93,36 +98,49 @@ NSMutableArray *collectionLineCellArray;
     [scrollView addSubview:_linesCollectionView];
     
     
-    UIButton *searchButton = [[UIButton alloc] init];
-    [searchButton setBackgroundColor:[UIColor darkGrayColor]];
+    UIButtonHightlight *searchButton = [[UIButtonHightlight alloc] init];
+    [searchButton setBackgroundColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [searchButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [searchButton.titleLabel setFont:[UIFont systemFontOfSize:25.0]];
     [searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [searchButton setTitle: @"Search" forState: UIControlStateNormal];
     searchButton.layer.cornerRadius = 10;
-    searchButton.frame = CGRectMake(15, 825, 120.0, 60.0);
+    searchButton.frame = CGRectMake(15, 745, 120.0, 60.0);
+    
+    UITapGestureRecognizer *searchResultsModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showSearchResultsModal:)];
+    searchResultsModal.numberOfTapsRequired = 1;
+    [searchButton setUserInteractionEnabled:YES];
+    [searchButton addGestureRecognizer:searchResultsModal];
     [scrollView addSubview:searchButton];
     
-//    UITapGestureRecognizer *newAlarmModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showNewAlarmModal:)];
-//    newAlarmModal.numberOfTapsRequired = 1;
-//    [newAlarmButton setUserInteractionEnabled:YES];
-//    [newAlarmButton addGestureRecognizer:newAlarmModal];
-//    [self.view addSubview:newAlarmButton];
-    
     [self.view addSubview:scrollView];
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 920);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 850);
     
+    searchResults = [[OFFLINESearchResultsViewController alloc] init];
+    searchResults.mainViewController = self;
 }
 
+
+- (IBAction)showSearchResultsModal:(UIGestureRecognizer *)newAlarmTapped{
+    [self presentViewController:searchResults animated:NO completion:nil];
+    [searchResults setup];
+}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.nycSubwayLinesData count];
 }
 
+- (NSString *)getSelectedLine {
+    return _selectedLine;
+}
+
+- (NSString *)getSearchString {
+    return searchTextField.text;
+}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
     NSMutableDictionary *lineDetails = [self.nycSubwayLinesData objectAtIndex:indexPath.item];
     NSString *line = [lineDetails objectForKey:@"line"];
     UIColor *bgColor = [lineDetails objectForKey:@"bgColor"];
@@ -136,12 +154,13 @@ NSMutableArray *collectionLineCellArray;
     [cell setLineDetails:line bgColor:bgColor textColor:textColor];
     [collectionLineCellArray addObject: cell];
     cell.darkBorder = darkBorder;
+    cell.mainViewController = self;
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(80, 80);
+    return CGSizeMake(70, 70);
 }
 
 - (void)collectionView:(UICollectionView *)colView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,7 +177,13 @@ NSMutableArray *collectionLineCellArray;
     [searchTextField resignFirstResponder];
 }
 
-
-
+-(void)back {
+    NSLog(@"BACK");
+    [scrollView setContentOffset:CGPointZero animated:NO];
+}
 
 @end
+
+
+
+
