@@ -28,7 +28,7 @@ CGRect screenBound;
 CGFloat screenWidth;
 CGFloat screenHeight;
 UITextField *searchTextField;
-UIScrollView *scrollView;
+UIScrollView *collecitonScrollView;
 UIColor *textColor;
 OFFLINESearchResultsViewController *searchResults;
 
@@ -38,30 +38,26 @@ NSMutableArray *collectionLineCellArray;
 
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
     screenBound = [[UIScreen mainScreen] bounds];
     screenWidth = screenBound.size.width;
     screenHeight = screenBound.size.height;
     [self setUp];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];
-//    NSLog(@"%@", self.nycSubwayLinesData);
 }
 
 - (void)setUp{
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height)];
+    collecitonScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    
+    
+    
     textColor = [UIColor colorWithRed:129/255.0f green:129/255.0f blue:129/255.0f alpha:1.0f];
     UILabel *searchLabel = [[UILabel alloc] init];
     searchLabel.font = [UIFont systemFontOfSize:23.0];
     searchLabel.textColor = textColor;
     searchLabel.text = @"What are you looking for?";
     searchLabel.frame = CGRectMake(10, 0, screenWidth-20, 50);
-    [scrollView addSubview:searchLabel];
+    [collecitonScrollView addSubview:searchLabel];
 
     CGRect frame = CGRectMake(10, 50, screenWidth - 20, 50);
     searchTextField = [[UITextField alloc] initWithFrame:frame];
@@ -73,14 +69,14 @@ NSMutableArray *collectionLineCellArray;
     searchTextField.autocorrectionType = UITextAutocorrectionTypeYes;
     searchTextField.keyboardType = UIKeyboardTypeDefault;
     searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [scrollView addSubview:searchTextField];
+    [collecitonScrollView addSubview:searchTextField];
     
     UILabel *lineLabel = [[UILabel alloc] init];
     lineLabel.font = [UIFont systemFontOfSize:23.0];
     lineLabel.textColor = textColor;
     lineLabel.text = @"Which subway line?";
     lineLabel.frame = CGRectMake(10, 120, screenWidth-20, 50);
-    [scrollView addSubview:lineLabel];
+    [collecitonScrollView addSubview:lineLabel];
     
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     collectionLineCellArray = [[NSMutableArray alloc] init];
@@ -95,7 +91,7 @@ NSMutableArray *collectionLineCellArray;
     [_linesCollectionView registerClass:[OFFLINELineCell class] forCellWithReuseIdentifier:@"cell"];
     [_linesCollectionView setBackgroundColor:[UIColor clearColor]];
     [_linesCollectionView setOpaque:NO];
-    [scrollView addSubview:_linesCollectionView];
+    [collecitonScrollView addSubview:_linesCollectionView];
     
     
     UIButtonHightlight *searchButton = [[UIButtonHightlight alloc] init];
@@ -111,13 +107,21 @@ NSMutableArray *collectionLineCellArray;
     searchResultsModal.numberOfTapsRequired = 1;
     [searchButton setUserInteractionEnabled:YES];
     [searchButton addGestureRecognizer:searchResultsModal];
-    [scrollView addSubview:searchButton];
+    [collecitonScrollView addSubview:searchButton];
     
-    [self.view addSubview:scrollView];
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 850);
+    [self.view addSubview:collecitonScrollView];
+    collecitonScrollView.contentSize = CGSizeMake(self.view.frame.size.width, 850);
     
     searchResults = [[OFFLINESearchResultsViewController alloc] init];
     searchResults.mainViewController = self;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [collecitonScrollView addGestureRecognizer:tap];
+ 
+//    UIPanGestureRecognizer *swipeGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+//    [self.view addGestureRecognizer:swipeGesture];
+//    [collecitonScrollView addGestureRecognizer:swipeGesture];
+
 }
 
 
@@ -179,7 +183,7 @@ NSMutableArray *collectionLineCellArray;
 
 -(void)back {
     NSLog(@"BACK");
-    [scrollView setContentOffset:CGPointZero animated:NO];
+    [collecitonScrollView setContentOffset:CGPointZero animated:NO];
 }
 
 @end

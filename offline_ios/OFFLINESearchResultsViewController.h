@@ -12,4 +12,5 @@
 @interface OFFLINESearchResultsViewController : UIViewController
 -(void) setup;
 @property (nonatomic, strong) OFFLINEViewController *mainViewController;
+@property (nonatomic, strong) NSMutableData *searchResults;
 @end
