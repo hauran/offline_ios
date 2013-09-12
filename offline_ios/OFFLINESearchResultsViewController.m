@@ -208,6 +208,11 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    NSLog(@"%@", [tableData objectAtIndex:indexPath.row]);
     [cell setDetails:[tableData objectAtIndex:indexPath.row]];
+    
+    if([[[tableData objectAtIndex:indexPath.row] objectForKey:@"places"] count] == 0) {
+        cell.userInteractionEnabled=NO;
+    }
+       
     return cell;
 }
 
