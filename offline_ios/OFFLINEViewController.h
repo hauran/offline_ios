@@ -14,8 +14,8 @@
     UICollectionView *_linesCollectionView;
 }
 
-- (void) dismissKeyboard;
 - (void) back;
+- (void) selected;
 - (NSString *) getSelectedLine;
 - (NSString *) getSearchString;
 @property (nonatomic, strong) NSMutableArray *nycSubwayLinesData;

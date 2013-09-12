@@ -10,6 +10,7 @@
 #import "UIButtonHightlight.h"
 #import "OFFLINEViewController.h"
 #import "OFFLINELineData.h"
+#import "OFFLINEStopDetails.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -26,6 +27,11 @@ UILabel *loadingString;
 UILabel *bigLine;
 NSString *searchLine;
 NSString *searchFor;
+UILabel *searchHeader;
+UITableView * searchResultsTable;
+NSMutableArray *tableData;
+
+UIButtonHightlight *newAlarmButton;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
 
 @synthesize mainViewController = _mainViewController;
@@ -49,20 +55,20 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     self.view.backgroundColor = [UIColor whiteColor];
     header = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
     header.backgroundColor = [UIColor colorWithRed:52/255.0f green:73/255.0f blue:94/255.0f alpha:1.0f];
-
-    UIButtonHightlight *newAlarmButton = [[UIButtonHightlight alloc] init];
-    [newAlarmButton.titleLabel setFont:[UIFont systemFontOfSize:20.0]];
-    [newAlarmButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
-    [newAlarmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [newAlarmButton setTitle: @"Back" forState:UIControlStateNormal];
-    newAlarmButton.layer.cornerRadius = 5;
-    newAlarmButton.frame = CGRectMake(self.view.frame.size.width-65, 5, 60,30);
+    
+    UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
+    [backButton.titleLabel setFont:[UIFont systemFontOfSize:20.0]];
+    [backButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton setTitle: @"Back" forState:UIControlStateNormal];
+    backButton.layer.cornerRadius = 5;
+    backButton.frame = CGRectMake(self.view.frame.size.width-65, 5, 60,30);
     
     UITapGestureRecognizer *closeAlarmModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeModal:)];
     closeAlarmModal.numberOfTapsRequired = 1;
-    [newAlarmButton setUserInteractionEnabled:YES];
-    [newAlarmButton addGestureRecognizer:closeAlarmModal];
-    [header addSubview:newAlarmButton];
+    [backButton setUserInteractionEnabled:YES];
+    [backButton addGestureRecognizer:closeAlarmModal];
+    [header addSubview:backButton];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-75, 0, 1, 40)];
     lineView.backgroundColor = [UIColor lightGrayColor];
@@ -78,6 +84,9 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
+    searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 95)];
+    searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.95f];
+    
     searchLine = [_mainViewController getSelectedLine];
     searchFor = [_mainViewController getSearchString];
     for (NSMutableDictionary *lineDetails in lines) {
@@ -90,7 +99,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
             bigLine.text = [lineDetails objectForKey:@"line"];
             bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
             bigLine.textColor = [lineDetails objectForKey:@"textColor"];
-            [searchResultsScrollView addSubview:bigLine];
+            [searchHeader addSubview:bigLine];
         }
     }
     searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 230, 80)];
@@ -99,7 +108,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
     searchForLabel.text = searchFor;
     searchForLabel.textColor = [UIColor darkGrayColor];
-    [searchResultsScrollView addSubview:searchForLabel];
+    [searchHeader addSubview:searchForLabel];
     
     loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 230, 80)];
     [loadingString setFont:[UIFont systemFontOfSize:20.0]];
@@ -107,14 +116,16 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     loadingString.layer.borderColor = [UIColor clearColor].CGColor;
     loadingString.text = @"Searching...";
     loadingString.textColor = [UIColor lightGrayColor];
-    [searchResultsScrollView addSubview:loadingString];
+    [searchHeader addSubview:loadingString];
+    
+    [searchResultsScrollView addSubview:searchHeader];
     [self doSearch];
 }
 
 -(void) doSearch{
     self.searchResults = [NSMutableData data];
     NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, searchLine, searchFor]]];
-    NSLog(@"%@", request);
+//    NSLog(@"%@", request);
     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [conn start];
 }
@@ -123,15 +134,15 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     [self.searchResults appendData:data];
 }
 
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"connectionDidFinishLoading");
-    NSLog(@"Succeeded! Received %d bytes of data",[self.searchResults length]);
+//    NSLog(@"connectionDidFinishLoading");
+//    NSLog(@"Succeeded! Received %d bytes of data",[self.searchResults length]);
     
     // convert to JSON
     NSError *myError = nil;
     NSMutableDictionary *res = [NSJSONSerialization JSONObjectWithData:self.searchResults options:NSJSONReadingMutableLeaves error:&myError];
-
+    
+    
     
 //    for(NSDictionary *stops in res) {
 //        NSLog(@"Stops: %@", stops);
@@ -153,14 +164,59 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     //    }
     //
     //    // extract specific value...
-        NSArray *results = [res objectForKey:@"stops"];
-//    NSLog(@"%@", results);
-        for (NSDictionary *result in results) {
-            NSString *stop_name = [result objectForKey:@"stop_name"];
-            NSLog(@"stop_name: %@", stop_name);
-        }
+
+    tableData = [[NSMutableArray alloc] init];
+    NSArray *results = [res objectForKey:@"stops"];
+    for (NSDictionary *result in results) {
+        NSString *stop_name = [result objectForKey:@"stop_name"];
+        [tableData addObject: stop_name];
+    }
     
+    
+    [loadingString removeFromSuperview];
+    searchResultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 15, self.view.frame.size.width, self.view.frame.size.height-80) style:UITableViewStylePlain];
+    [searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"cell"];
+    [searchResultsTable setDataSource:self];
+    [searchResultsTable setDelegate:self];
+    [searchResultsTable setContentInset:UIEdgeInsetsMake(80,0,0,0)];
+
+    [searchResultsScrollView insertSubview:searchResultsTable belowSubview:searchHeader];
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return [tableData count];
+}
+
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *simpleTableIdentifier = @"cell";
+        
+    OFFLINEStopDetails *cell = (OFFLINEStopDetails *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+    cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    NSLog(@"%@", [tableData objectAtIndex:indexPath.row]);
+    [cell setDetails:[tableData objectAtIndex:indexPath.row] color:bigLine.backgroundColor];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Selected a row" message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+
 
 
 - (void)didReceiveMemoryWarning

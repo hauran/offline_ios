@@ -30,6 +30,7 @@ CGFloat screenHeight;
 UITextField *searchTextField;
 UIScrollView *collecitonScrollView;
 UIColor *textColor;
+UIButtonHightlight *searchButton;
 OFFLINESearchResultsViewController *searchResults;
 
 NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
@@ -71,6 +72,8 @@ NSMutableArray *collectionLineCellArray;
     searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [collecitonScrollView addSubview:searchTextField];
     
+    searchTextField.text = @"ramen";
+    
     UILabel *lineLabel = [[UILabel alloc] init];
     lineLabel.font = [UIFont systemFontOfSize:23.0];
     lineLabel.textColor = textColor;
@@ -94,7 +97,7 @@ NSMutableArray *collectionLineCellArray;
     [collecitonScrollView addSubview:_linesCollectionView];
     
     
-    UIButtonHightlight *searchButton = [[UIButtonHightlight alloc] init];
+    searchButton = [[UIButtonHightlight alloc] init];
     [searchButton setBackgroundColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [searchButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [searchButton.titleLabel setFont:[UIFont systemFontOfSize:25.0]];
@@ -167,20 +170,21 @@ NSMutableArray *collectionLineCellArray;
     return CGSizeMake(70, 70);
 }
 
-- (void)collectionView:(UICollectionView *)colView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
-    cell.contentView.backgroundColor = [UIColor clearColor];
-}
-
-- (void)collectionView:(UICollectionView *)colView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell* cell = [colView cellForItemAtIndexPath:indexPath];
-    cell.contentView.backgroundColor = nil;
-}
 
 -(void)dismissKeyboard {
     [searchTextField resignFirstResponder];
 }
 
+-(void)selected {
+    [self performSelector:@selector(scrollToBottom) withObject:nil afterDelay:0.25];
+
+    
+    [self dismissKeyboard];
+}
+- (void) scrollToBottom {
+    CGPoint bottomOffset = CGPointMake(0, collecitonScrollView.contentSize.height - collecitonScrollView.bounds.size.height);
+    [collecitonScrollView setContentOffset:bottomOffset animated:YES];
+}
 -(void)back {
     NSLog(@"BACK");
     [collecitonScrollView setContentOffset:CGPointZero animated:NO];

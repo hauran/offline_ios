@@ -76,10 +76,8 @@ NSMutableArray *parentLinesCollection;
     [label.view setAlpha:1.0];
     [UIView commitAnimations];
     
-    /* Is this the correct way? */
-    [_mainViewController dismissKeyboard];
+    [_mainViewController selected];
     _mainViewController.selectedLine =[(OFFLINELineCell *)line getRouteLabel];
-    
     
     NSLog(@"%@",_mainViewController.selectedLine);
 }
