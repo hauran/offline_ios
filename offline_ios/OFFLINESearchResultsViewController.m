@@ -11,6 +11,7 @@
 #import "OFFLINEViewController.h"
 #import "OFFLINELineData.h"
 #import "OFFLINEStopDetails.h"
+#import "fontawesome/NSString+FontAwesome.m"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -57,12 +58,14 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     header.backgroundColor = [UIColor colorWithRed:52/255.0f green:73/255.0f blue:94/255.0f alpha:1.0f];
     
     UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
-    [backButton.titleLabel setFont:[UIFont systemFontOfSize:20.0]];
-    [backButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [backButton.titleLabel setFont:[UIFont fontWithName:kFontAwesomeFamilyName size:35.0]];
+//    [backButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [backButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backButton setTitle: @"Back" forState:UIControlStateNormal];
+    [backButton setTitle: [NSString fontAwesomeIconStringForIconIdentifier:@"icon-angle-left"] forState:UIControlStateNormal];
     backButton.layer.cornerRadius = 5;
-    backButton.frame = CGRectMake(self.view.frame.size.width-65, 5, 60,30);
+    backButton.frame = CGRectMake(self.view.frame.size.width-35, 5, 30, 30);
+
     
     UITapGestureRecognizer *closeAlarmModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeModal:)];
     closeAlarmModal.numberOfTapsRequired = 1;
@@ -70,7 +73,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     [backButton addGestureRecognizer:closeAlarmModal];
     [header addSubview:backButton];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-75, 0, 1, 40)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, 0, 1, 40)];
     lineView.backgroundColor = [UIColor lightGrayColor];
     [header addSubview:lineView];
     header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
