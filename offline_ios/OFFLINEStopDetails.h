@@ -12,10 +12,11 @@
 @interface OFFLINEStopDetails : UITableViewCell
 
 @property (nonatomic, strong) UILabel *stopLabel;
-@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) NSArray *places;
+@property (nonatomic, strong) UIView *cellView;
+
 @property (nonatomic, strong) OFFLINEViewController *mainViewController;
 
-//- (void)setLineDetails:(NSString *)line bgColor:(UIColor *)bgColor textColor:(UIColor *)textColor;
-- (void)setDetails:(NSString *)name color:(UIColor *)color;
+- (void)setDetails:(NSDictionary *)stopResults;
 
 @end

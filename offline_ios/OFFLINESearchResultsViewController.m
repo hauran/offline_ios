@@ -87,25 +87,25 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-    searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 95)];
-    searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.95f];
+    searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+    searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
     
     searchLine = [_mainViewController getSelectedLine];
     searchFor = [_mainViewController getSearchString];
     for (NSMutableDictionary *lineDetails in lines) {
         if ([(NSString *)[lineDetails objectForKey:@"line"] isEqualToString:searchLine]){
-            bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 80, 80)];
-            bigLine.font = [UIFont boldSystemFontOfSize:60];
+            bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 60)];
+            bigLine.font = [UIFont boldSystemFontOfSize:45];
             bigLine.textAlignment = NSTextAlignmentCenter;
             bigLine.layer.borderColor = [UIColor clearColor].CGColor;
-            bigLine.layer.cornerRadius = 40;
+            bigLine.layer.cornerRadius = 30;
             bigLine.text = [lineDetails objectForKey:@"line"];
             bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
             bigLine.textColor = [lineDetails objectForKey:@"textColor"];
             [searchHeader addSubview:bigLine];
         }
     }
-    searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 230, 80)];
+    searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
     [searchForLabel setFont:[UIFont systemFontOfSize:25.0]];
     searchForLabel.textAlignment = NSTextAlignmentLeft;
     searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
@@ -113,7 +113,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     searchForLabel.textColor = [UIColor darkGrayColor];
     [searchHeader addSubview:searchForLabel];
     
-    loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 230, 80)];
+    loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 100, 80)];
     [loadingString setFont:[UIFont systemFontOfSize:20.0]];
     loadingString.textAlignment = NSTextAlignmentLeft;
     loadingString.layer.borderColor = [UIColor clearColor].CGColor;
@@ -172,7 +172,8 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     NSArray *results = [res objectForKey:@"stops"];
     for (NSDictionary *result in results) {
         NSString *stop_name = [result objectForKey:@"stop_name"];
-        [tableData addObject: stop_name];
+        NSArray *results = [result objectForKey:@"results"];
+        [tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop",bigLine.backgroundColor,@"color",results,@"places",nil]];
     }
     
     
@@ -181,7 +182,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     [searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"cell"];
     [searchResultsTable setDataSource:self];
     [searchResultsTable setDelegate:self];
-    [searchResultsTable setContentInset:UIEdgeInsetsMake(80,0,0,0)];
+    [searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
 
     [searchResultsScrollView insertSubview:searchResultsTable belowSubview:searchHeader];
 }
@@ -206,13 +207,13 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    NSLog(@"%@", [tableData objectAtIndex:indexPath.row]);
-    [cell setDetails:[tableData objectAtIndex:indexPath.row] color:bigLine.backgroundColor];
+    [cell setDetails:[tableData objectAtIndex:indexPath.row]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Selected a row" message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Selected a row" message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    [alert show];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -13,7 +13,8 @@
 @implementation OFFLINEStopDetails
 
 @synthesize stopLabel = _stopLabel;
-@synthesize color = _color;
+@synthesize places = _places;
+@synthesize cellView = _cellView;
 @synthesize mainViewController = _mainViewController;
 
 UIBorderLabel *colorRect;
@@ -24,37 +25,49 @@ UIBorderLabel *colorRect;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(5, 3, self.bounds.size.width-10, self.bounds.size.height)];
-        cellView.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
+        _cellView = [[UIView alloc] initWithFrame:CGRectMake(5, 3, self.bounds.size.width-10, self.bounds.size.height)];
+        _cellView.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
         
-        self.stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(33, 0, self.bounds.size.width-30, self.bounds.size.height)];
+        self.stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 0, self.bounds.size.width-30, self.bounds.size.height)];
         self.autoresizesSubviews = YES;
         self.stopLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
                                   UIViewAutoresizingFlexibleHeight);
-        self.stopLabel.font = [UIFont boldSystemFontOfSize:20];
+        self.stopLabel.font = [UIFont systemFontOfSize:18];
         self.stopLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         self.stopLabel.textAlignment = NSTextAlignmentLeft;
-        [cellView addSubview:self.stopLabel];
+        [_cellView addSubview:self.stopLabel];
         
-        colorRect = [[UIBorderLabel alloc]initWithFrame:CGRectMake(0, 0, 30, self.bounds.size.height)];
+        colorRect = [[UIBorderLabel alloc]initWithFrame:CGRectMake(0, 0, 20, self.bounds.size.height)];
         colorRect.backgroundColor = [UIColor blackColor];
         
-        colorRect.font = [UIFont fontWithName:kFontAwesomeFamilyName size:15.f];
+        colorRect.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13.f];
         colorRect.textColor = [UIColor whiteColor];
         colorRect.text = [NSString fontAwesomeIconStringForIconIdentifier:@"icon-circle"];
-        colorRect.leftInset = 8;
-        [cellView addSubview:colorRect];
+        colorRect.leftInset = 4;
+        [_cellView addSubview:colorRect];
                             
-        [self addSubview:cellView];
-
-        
+        [self addSubview:_cellView];
     }
     return self;
 }
 
-- (void)setDetails:(NSString *)name color:(UIColor *)color {
-    self.stopLabel.text = name;
-    colorRect.backgroundColor = color;
-    
+
+- (void)setDetails:(NSDictionary *)stopResults {
+    self.stopLabel.text = [stopResults objectForKey:@"stop"];
+    colorRect.backgroundColor = [stopResults objectForKey:@"color"];
+    _places = (NSArray *)[stopResults objectForKey:@"places"];
+    if (_places == nil || [_places count] == 0) {
+        _cellView.alpha = 0.4f;
+    }
+    else {
+        _cellView.alpha = 1.0f;
+         NSLog(@"places: %D",[_places count]);
+        for (NSArray *place in _places) {
+            NSLog(@"%@",place);
+        }
+        
+    }
 }
+
+
 @end
