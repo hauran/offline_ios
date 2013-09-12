@@ -173,7 +173,9 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     for (NSDictionary *result in results) {
         NSString *stop_name = [result objectForKey:@"stop_name"];
         NSArray *results = [result objectForKey:@"results"];
-        [tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop",bigLine.backgroundColor,@"color",results,@"places",nil]];
+        int stopSequence = [result objectForKey:@"stop_sequence"];
+        
+        [tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop",bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
     }
     
     
