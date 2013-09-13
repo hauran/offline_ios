@@ -18,19 +18,18 @@
 @interface OFFLINESearchResultsViewController ()
 @end
 
-
 @implementation OFFLINESearchResultsViewController
 
-UIScrollView *header;
-UIScrollView *searchResultsScrollView;
-UILabel *searchForLabel;
-UILabel *loadingString;
-UILabel *bigLine;
-NSString *searchLine;
-NSString *searchFor;
-UILabel *searchHeader;
-UITableView * searchResultsTable;
-NSMutableArray *tableData;
+@synthesize header =  _header;
+@synthesize searchResultsScrollView = _searchResultsScrollView;
+@synthesize searchForLabel = _searchForLabel;
+@synthesize loadingString = _loadingString;
+@synthesize bigLine = _bigLine;
+@synthesize searchLine = _searchLine;
+@synthesize searchFor = _searchFor;
+@synthesize searchHeader = _searchHeader;
+@synthesize searchResultsTable = _searchResultsTable;
+@synthesize tableData = _tableData;
 
 UIButtonHightlight *newAlarmButton;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
@@ -54,8 +53,8 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    header = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
-    header.backgroundColor = [UIColor colorWithRed:52/255.0f green:73/255.0f blue:94/255.0f alpha:1.0f];
+    _header = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+    _header.backgroundColor = [UIColor colorWithRed:52/255.0f green:73/255.0f blue:94/255.0f alpha:1.0f];
     
     UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
     [backButton.titleLabel setFont:[UIFont fontWithName:kFontAwesomeFamilyName size:35.0]];
@@ -71,63 +70,63 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     closeAlarmModal.numberOfTapsRequired = 1;
     [backButton setUserInteractionEnabled:YES];
     [backButton addGestureRecognizer:closeAlarmModal];
-    [header addSubview:backButton];
+    [_header addSubview:backButton];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, 0, 1, 40)];
     lineView.backgroundColor = [UIColor lightGrayColor];
-    [header addSubview:lineView];
-    header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
-    [self.view addSubview:header];
+    [_header addSubview:lineView];
+    _header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
+    [self.view addSubview:_header];
     
-    searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 1000)];
-    [self.view addSubview:searchResultsScrollView];
+    _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 1000)];
+    [self.view addSubview:_searchResultsScrollView];
 }
 
 -(void) setup {
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-    searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
-    searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
+    _searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+    _searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
     
-    searchLine = [_mainViewController getSelectedLine];
-    searchFor = [_mainViewController getSearchString];
+    _searchLine = [_mainViewController getSelectedLine];
+    _searchFor = [_mainViewController getSearchString];
     for (NSMutableDictionary *lineDetails in lines) {
-        if ([(NSString *)[lineDetails objectForKey:@"line"] isEqualToString:searchLine]){
-            bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 60)];
-            bigLine.font = [UIFont boldSystemFontOfSize:45];
-            bigLine.textAlignment = NSTextAlignmentCenter;
-            bigLine.layer.borderColor = [UIColor clearColor].CGColor;
-            bigLine.layer.cornerRadius = 30;
-            bigLine.text = [lineDetails objectForKey:@"line"];
-            bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
-            bigLine.textColor = [lineDetails objectForKey:@"textColor"];
-            [searchHeader addSubview:bigLine];
+        if ([(NSString *)[lineDetails objectForKey:@"line"] isEqualToString:_searchLine]){
+            _bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 60)];
+            _bigLine.font = [UIFont boldSystemFontOfSize:45];
+            _bigLine.textAlignment = NSTextAlignmentCenter;
+            _bigLine.layer.borderColor = [UIColor clearColor].CGColor;
+            _bigLine.layer.cornerRadius = 30;
+            _bigLine.text = [lineDetails objectForKey:@"line"];
+            _bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
+            _bigLine.textColor = [lineDetails objectForKey:@"textColor"];
+            [_searchHeader addSubview:_bigLine];
         }
     }
-    searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
-    [searchForLabel setFont:[UIFont systemFontOfSize:25.0]];
-    searchForLabel.textAlignment = NSTextAlignmentLeft;
-    searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
-    searchForLabel.text = searchFor;
-    searchForLabel.textColor = [UIColor darkGrayColor];
-    [searchHeader addSubview:searchForLabel];
+    _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
+    [_searchForLabel setFont:[UIFont systemFontOfSize:25.0]];
+    _searchForLabel.textAlignment = NSTextAlignmentLeft;
+    _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
+    _searchForLabel.text = _searchFor;
+    _searchForLabel.textColor = [UIColor darkGrayColor];
+    [_searchHeader addSubview:_searchForLabel];
     
-    loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 100, 80)];
-    [loadingString setFont:[UIFont systemFontOfSize:20.0]];
-    loadingString.textAlignment = NSTextAlignmentLeft;
-    loadingString.layer.borderColor = [UIColor clearColor].CGColor;
-    loadingString.text = @"Searching...";
-    loadingString.textColor = [UIColor lightGrayColor];
-    [searchHeader addSubview:loadingString];
+    _loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 100, 80)];
+    [_loadingString setFont:[UIFont systemFontOfSize:20.0]];
+    _loadingString.textAlignment = NSTextAlignmentLeft;
+    _loadingString.layer.borderColor = [UIColor clearColor].CGColor;
+    _loadingString.text = @"Searching...";
+    _loadingString.textColor = [UIColor lightGrayColor];
+    [_searchHeader addSubview:_loadingString];
     
-    [searchResultsScrollView addSubview:searchHeader];
+    [_searchResultsScrollView addSubview:_searchHeader];
     [self doSearch];
 }
 
 -(void) doSearch{
     self.searchResults = [NSMutableData data];
-    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, searchLine, searchFor]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor]]];
 //    NSLog(@"%@", request);
     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [conn start];
@@ -168,37 +167,36 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     //
     //    // extract specific value...
 
-    tableData = [[NSMutableArray alloc] init];
+    _tableData = [[NSMutableArray alloc] init];
     NSArray *results = [res objectForKey:@"stops"];
     for (NSDictionary *result in results) {
         NSString *stop_name = [result objectForKey:@"stop_name"];
         NSArray *results = [result objectForKey:@"results"];
         int stopSequence = [result objectForKey:@"stop_sequence"];
         
-        [tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop",bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
+        [_tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop", _bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
     }
     
     
-    [loadingString removeFromSuperview];
-    searchResultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 15, self.view.frame.size.width, self.view.frame.size.height-80) style:UITableViewStylePlain];
-    [searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"cell"];
-    [searchResultsTable setDataSource:self];
-    [searchResultsTable setDelegate:self];
-    [searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
+    [_loadingString removeFromSuperview];
+    _searchResultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 15, self.view.frame.size.width, self.view.frame.size.height-80) style:UITableViewStylePlain];
+    [_searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"cell"];
+    [_searchResultsTable setDataSource:self];
+    [_searchResultsTable setDelegate:self];
+    [_searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
 
-    [searchResultsScrollView insertSubview:searchResultsTable belowSubview:searchHeader];
+    [_searchResultsScrollView insertSubview:_searchResultsTable belowSubview:_searchHeader];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [tableData count];
+    return [_tableData count];
 }
 
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"cell";
-        
     OFFLINEStopDetails *cell = (OFFLINEStopDetails *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
     {
@@ -206,16 +204,16 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
         cell = [nib objectAtIndex:0];
     }
     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    NSLog(@"%@", [tableData objectAtIndex:indexPath.row]);
-    [cell setDetails:[tableData objectAtIndex:indexPath.row]];
-    
-    if([[[tableData objectAtIndex:indexPath.row] objectForKey:@"places"] count] == 0) {
-        cell.userInteractionEnabled=NO;
-    }
-       
+    [cell setDetails:[_tableData objectAtIndex:indexPath.row] index:indexPath.row];
+    cell.userInteractionEnabled=NO;
     return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger placesCount = [[[_tableData objectAtIndex:indexPath.row] objectForKey:@"places"] count];
+    return (placesCount * 45.0) + 45.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -236,10 +234,14 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)resizeRow:(NSInteger)rowIndex{
+    
+}
+
 - (IBAction)closeModal:(UIButton *)sender {
-    [loadingString removeFromSuperview];
-    [searchForLabel removeFromSuperview];
-    [bigLine removeFromSuperview];
+    [_loadingString removeFromSuperview];
+    [_searchForLabel removeFromSuperview];
+    [_bigLine removeFromSuperview];
     [self dismissViewControllerAnimated:NO completion:^{
        [_mainViewController back];
     }];

@@ -10,7 +10,8 @@
 
 @interface OFFLINEPlaceCell : UITableViewCell
 
-- (void)setDetails:(NSDictionary *)placesInfo;
+@property (nonatomic, strong) UIView *cellView;
+@property (nonatomic, strong) UILabel *nameLabel;
 
-
+- (void)setDetails:(NSDictionary *)placesInfo stopRowIndex:(NSInteger)stopRowIndex;
 @end

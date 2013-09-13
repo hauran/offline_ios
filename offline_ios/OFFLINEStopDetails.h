@@ -7,16 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OFFLINEViewController.h"
+#import "OFFLINESearchResultsViewController.h"
+#import "UIBorderLabel.h"
 
 @interface OFFLINEStopDetails : UITableViewCell
 
 @property (nonatomic, strong) UILabel *stopLabel;
 @property (nonatomic, strong) NSArray *places;
 @property (nonatomic, strong) UIView *cellView;
+@property (nonatomic, strong) UILabel *colorRect;
+@property (nonatomic, strong) UILabel *dot;
+@property (nonatomic) NSInteger stopRowIndex;
 
-@property (nonatomic, strong) OFFLINEViewController *mainViewController;
-
-- (void)setDetails:(NSDictionary *)stopResults;
+- (void)setDetails:(NSDictionary *)stopResults index:(NSInteger)index;
 
 @end

@@ -16,51 +16,62 @@
 @synthesize stopLabel = _stopLabel;
 @synthesize places = _places;
 @synthesize cellView = _cellView;
-@synthesize mainViewController = _mainViewController;
+@synthesize colorRect = _colorRect;
+@synthesize dot = _dot;
+@synthesize stopRowIndex = _stopRowIndex;
 
-UIBorderLabel *colorRect;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         _cellView = [[UIView alloc] initWithFrame:CGRectMake(5, 3, self.bounds.size.width-10, self.bounds.size.height)];
         _cellView.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
         
-        self.stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 0, self.bounds.size.width-30, self.bounds.size.height)];
-        self.autoresizesSubviews = YES;
-        self.stopLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                  UIViewAutoresizingFlexibleHeight);
+        self.stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 0, self.bounds.size.width-30, 45)];
+//        self.autoresizesSubviews = YES;
+//        self.stopLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         self.stopLabel.font = [UIFont systemFontOfSize:18];
         self.stopLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         self.stopLabel.textAlignment = NSTextAlignmentLeft;
         [_cellView addSubview:self.stopLabel];
         
-        colorRect = [[UIBorderLabel alloc]initWithFrame:CGRectMake(0, 0, 20, self.bounds.size.height)];
-        colorRect.backgroundColor = [UIColor blackColor];
+        _colorRect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 20, self.bounds.size.height)];
+        _colorRect.backgroundColor = [UIColor blackColor];
+        [_cellView addSubview:_colorRect];
         
-        colorRect.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13.f];
-        colorRect.textColor = [UIColor whiteColor];
-        colorRect.text = [NSString fontAwesomeIconStringForIconIdentifier:@"icon-circle"];
-        colorRect.leftInset = 4;
-        [_cellView addSubview:colorRect];
-                            
+        _dot = [[UILabel alloc]initWithFrame:CGRectMake(4, 15, 15, 15)];
+        _dot.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13.f];
+        _dot.textColor = [UIColor whiteColor];
+        _dot.text = [NSString fontAwesomeIconStringForIconIdentifier:@"icon-circle"];
+        [_cellView addSubview:_dot];
+
+        
         [self addSubview:_cellView];
     }
     return self;
 }
 
 
-- (void)setDetails:(NSDictionary *)stopResults {
+- (void)setDetails:(NSDictionary *)stopResults index:(NSInteger)index {
     self.stopLabel.text = [stopResults objectForKey:@"stop"];
-    colorRect.backgroundColor = [stopResults objectForKey:@"color"];
+    _colorRect.backgroundColor = [stopResults objectForKey:@"color"];
     _places = (NSArray *)[stopResults objectForKey:@"places"];
-//    int stopSequence = [stopResults objectForKey:@"stopSequence"];
-
+    _stopRowIndex = index;
+    
+    
+    NSInteger height =([_places count] * 45.0) + 45.0;
+    CGRect frame = _cellView.frame;
+    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height)];
+    
+    frame = _colorRect.frame;
+    [_colorRect setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height)];
+    
     if (_places == nil || [_places count] == 0) {
         _cellView.alpha = 0.4f;
+//      TODO: REMOVE BY TAG
         for (NSObject *isPlacesTable in [_cellView subviews]) {
             if([isPlacesTable isKindOfClass:[UITableView class]]){
                 [(UITableView *)isPlacesTable removeFromSuperview];
@@ -75,12 +86,12 @@ UIBorderLabel *colorRect;
 //            OFFLINEPlaceViewController *place = [[OFFLINEPlaceViewController alloc] init];
 //            [_cellView addSubview:place.view];
 //        }
-        UITableView *placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 30, self.bounds.size.width, self.bounds.size.height) style:UITableViewStylePlain];
-//        placesTable.tag = stopSequence;
+        UITableView *placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 40, self.bounds.size.width-45, height-48) style:UITableViewStylePlain];
+        placesTable.tag = _stopRowIndex;
+        placesTable.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
         [placesTable registerClass:[OFFLINEPlaceCell class] forCellReuseIdentifier:@"cell"];
         [placesTable setDataSource:self];
-        [placesTable setDelegate:self];
-        [placesTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
+        [placesTable setDelegate:self];        
         [_cellView addSubview:placesTable];
     }
 }
@@ -90,11 +101,8 @@ UIBorderLabel *colorRect;
     return [_places count];
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"cell";
-    
     OFFLINEPlaceCell *cell = (OFFLINEPlaceCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
     {
@@ -102,17 +110,9 @@ UIBorderLabel *colorRect;
         cell = [nib objectAtIndex:0];
     }
     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    //    NSLog(@"%@", [tableData objectAtIndex:indexPath.row]);
-    [cell setDetails:[_places objectAtIndex:indexPath.row]];
-    
+    [cell setDetails:[_places objectAtIndex:indexPath.row] stopRowIndex:_stopRowIndex];
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Selected a row" message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    //    [alert show];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
