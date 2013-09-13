@@ -13,6 +13,7 @@
 #import "OFFLINEStopDetails.h"
 #import "fontawesome/NSString+FontAwesome.m"
 #import <QuartzCore/QuartzCore.h>
+#import <Foundation/Foundation.h>
 
 
 @interface OFFLINESearchResultsViewController ()
@@ -105,7 +106,8 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
         }
     }
     _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
-    [_searchForLabel setFont:[UIFont systemFontOfSize:25.0]];
+    [_searchForLabel setFont:[UIFont boldSystemFontOfSize:20.0]];
+//    _searchForLabel.adjustsFontSizeToFitWidth = YES;
     _searchForLabel.textAlignment = NSTextAlignmentLeft;
     _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
     _searchForLabel.text = _searchFor;
@@ -126,7 +128,15 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
 
 -(void) doSearch{
     self.searchResults = [NSMutableData data];
-    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:[NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor]]];
+    NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor];
+    NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+    NSLog(@"%@", url);
+//    NSString *myString = [[NSString alloc] initWithData: encoding:NSUTF8StringEncoding];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
+    
+    
 //    NSLog(@"%@", request);
     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [conn start];

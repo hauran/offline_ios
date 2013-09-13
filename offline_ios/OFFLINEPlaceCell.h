@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *addressLabel;
 
 - (void)setDetails:(NSDictionary *)placesInfo stopRowIndex:(NSInteger)stopRowIndex;
 @end

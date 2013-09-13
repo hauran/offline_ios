@@ -26,4 +26,5 @@
 @property (nonatomic, strong) UITableView * searchResultsTable;
 @property (nonatomic, strong) NSMutableArray *tableData;
 
+
 @end
