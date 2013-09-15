@@ -33,10 +33,13 @@
 @synthesize tableData = _tableData;
 
 UIButtonHightlight *newAlarmButton;
+NSIndexPath *selectedRowIndex;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
+NSInteger const SELECTED_HEIGHT_DIFF = 100;
 
 @synthesize mainViewController = _mainViewController;
 @synthesize searchResults = _searchResults;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,6 +63,7 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
     [backButton.titleLabel setFont:[UIFont fontWithName:kFontAwesomeFamilyName size:35.0]];
 //    [backButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    
     [backButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backButton setTitle: [NSString fontAwesomeIconStringForIconIdentifier:@"icon-angle-left"] forState:UIControlStateNormal];
@@ -184,13 +188,15 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
         NSArray *results = [result objectForKey:@"results"];
         int stopSequence = [result objectForKey:@"stop_sequence"];
         
+        
+        NSLog(@"stop: %@ places %D", stop_name, [results count]);
         [_tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop", _bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
     }
     
     
     [_loadingString removeFromSuperview];
     _searchResultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 15, self.view.frame.size.width, self.view.frame.size.height-80) style:UITableViewStylePlain];
-    [_searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"cell"];
+    [_searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"stopCell"];
     [_searchResultsTable setDataSource:self];
     [_searchResultsTable setDelegate:self];
     [_searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
@@ -198,54 +204,106 @@ NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
     [_searchResultsScrollView insertSubview:_searchResultsTable belowSubview:_searchHeader];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return [_tableData count];
-}
-
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"cell";
-    OFFLINEStopDetails *cell = (OFFLINEStopDetails *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil)
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"stopCell";
+    
+    OFFLINEStopDetails *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[OFFLINEStopDetails alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell setDetails:[_tableData objectAtIndex:indexPath.row] index:indexPath.row];
-    cell.userInteractionEnabled=NO;
+    [cell setDetails:[_tableData objectAtIndex:indexPath.row] index:indexPath lineStopsController:self ];
+    cell.userInteractionEnabled=YES;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+    
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger placesCount = [[[_tableData objectAtIndex:indexPath.row] objectForKey:@"places"] count];
     return (placesCount * 45.0) + 45.0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Selected a row" message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//    [alert show];
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [_tableData count];
+}
+
+- (void) selected:(NSIndexPath *)rowIndex {
+    if(selectedRowIndex != rowIndex){
+        [self unselect];
+        
+        selectedRowIndex = rowIndex;
+        OFFLINEStopDetails *stopDetails = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:rowIndex];
+//    NSLog(@"%@", stopDetails);
+        CGRect frame = stopDetails.frame;
+        CGRect cellViewFrame = stopDetails.cellView.frame;
+        int newHeight = frame.size.height + SELECTED_HEIGHT_DIFF;
+
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.25];
+        [stopDetails setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, newHeight)];
+        [stopDetails.colorRect setFrame:CGRectMake(0, 0, 20, newHeight)];
+        [stopDetails.cellView setFrame:CGRectMake(cellViewFrame.origin.x, cellViewFrame.origin.y, cellViewFrame.size.width, newHeight)];
+        [UIView commitAnimations];
+    
+        NSIndexPath *nextRowIndex;
+        CGRect nextFrame;
+        for (int inc = 1; inc < [_searchResultsTable numberOfRowsInSection:0] - rowIndex.row; inc++) {
+            NSLog(@"%D", inc);
+            NSInteger newLast = [rowIndex indexAtPosition:rowIndex.length-1]+inc;
+            nextRowIndex = [[rowIndex indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast];
+            OFFLINEStopDetails *nextStop = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:nextRowIndex];
+            
+            nextFrame = nextStop.frame;
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.25];
+            [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y+SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
+            [UIView commitAnimations];
+        }
+       
+    }
+}
+
+-(void) unselect {
+    OFFLINEStopDetails *stopDetails = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:selectedRowIndex];
+    //    NSLog(@"%@", stopDetails);
+    CGRect frame = stopDetails.frame;
+    CGRect cellViewFrame = stopDetails.cellView.frame;
+    int newHeight = frame.size.height - SELECTED_HEIGHT_DIFF;
+    
+    
+    [stopDetails setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, newHeight)];
+    [stopDetails.colorRect setFrame:CGRectMake(0, 0, 20, newHeight)];
+    [stopDetails.cellView setFrame:CGRectMake(cellViewFrame.origin.x, cellViewFrame.origin.y, cellViewFrame.size.width, newHeight)];
+    
+    NSIndexPath *nextRowIndex;
+    CGRect nextFrame;
+    for (int inc = 1; inc < [_searchResultsTable numberOfRowsInSection:0] - selectedRowIndex.row; inc++) {
+        NSLog(@"%D", inc);
+        NSInteger newLast = [selectedRowIndex indexAtPosition:selectedRowIndex.length-1]+inc;
+        nextRowIndex = [[selectedRowIndex indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast];
+        OFFLINEStopDetails *nextStop = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:nextRowIndex];
+        
+        nextFrame = nextStop.frame;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.25];
+        [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y-SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
+        [UIView commitAnimations];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
     return 1;
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)resizeRow:(NSInteger)rowIndex{
-    
 }
 
 - (IBAction)closeModal:(UIButton *)sender {

@@ -17,8 +17,13 @@
 @property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UILabel *colorRect;
 @property (nonatomic, strong) UILabel *dot;
-@property (nonatomic) NSInteger stopRowIndex;
+@property (nonatomic, strong) NSMutableData *placeDetails;
+@property (nonatomic, strong) NSIndexPath * stopRowIndex;
+@property (nonatomic, strong) OFFLINESearchResultsViewController *lineStopsController;
+@property (nonatomic) NSInteger height;
 
-- (void)setDetails:(NSDictionary *)stopResults index:(NSInteger)index;
+
+
+- (void)setDetails:(NSDictionary *)stopResults index:(NSIndexPath *)index lineStopsController:(OFFLINESearchResultsViewController *)lineStopsController;
 
 @end

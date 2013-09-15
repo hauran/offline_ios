@@ -18,7 +18,13 @@
 @synthesize cellView = _cellView;
 @synthesize colorRect = _colorRect;
 @synthesize dot = _dot;
+@synthesize placeDetails = _placeDetails;
+@synthesize height = _height;
 @synthesize stopRowIndex = _stopRowIndex;
+@synthesize lineStopsController = _lineStopsController;
+
+NSString *const MOREINFO_SERVER = @"http://dev-offline.jit.su";
+OFFLINEPlaceCell *selectedCell;
 
 
 
@@ -55,19 +61,20 @@
 }
 
 
-- (void)setDetails:(NSDictionary *)stopResults index:(NSInteger)index {
+- (void)setDetails:(NSDictionary *)stopResults index:(NSIndexPath *)index lineStopsController:(OFFLINESearchResultsViewController *)lineStopsController {
+    
     self.stopLabel.text = [stopResults objectForKey:@"stop"];
     _colorRect.backgroundColor = [stopResults objectForKey:@"color"];
     _places = (NSArray *)[stopResults objectForKey:@"places"];
     _stopRowIndex = index;
+    _lineStopsController = lineStopsController;
     
-    
-    NSInteger height =([_places count] * 45.0) + 45.0;
+    _height =([_places count] * 45.0) + 45.0;
     CGRect frame = _cellView.frame;
-    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height)];
+    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, _height)];
     
     frame = _colorRect.frame;
-    [_colorRect setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, height)];
+    [_colorRect setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, _height)];
     
     if (_places == nil || [_places count] == 0) {
         _cellView.alpha = 0.4f;
@@ -80,40 +87,99 @@
     }
     else {
         _cellView.alpha = 1.0f;
-         NSLog(@"places: %D",[_places count]);
+//         NSLog(@"places: %D",[_places count]);
 //        for (NSArray *place in _places) {
 //            NSLog(@"%@",place);
 //            OFFLINEPlaceViewController *place = [[OFFLINEPlaceViewController alloc] init];
 //            [_cellView addSubview:place.view];
 //        }
-        UITableView *placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 40, self.bounds.size.width-45, height-48) style:UITableViewStylePlain];
+        UITableView *placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 40, self.bounds.size.width-45, _height-48) style:UITableViewStylePlain];
+        placesTable.bounces = NO;
         placesTable.tag = _stopRowIndex;
         placesTable.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
-        [placesTable registerClass:[OFFLINEPlaceCell class] forCellReuseIdentifier:@"cell"];
+        [placesTable registerClass:[OFFLINEPlaceCell class] forCellReuseIdentifier:@"placeCell"];
         [placesTable setDataSource:self];
-        [placesTable setDelegate:self];        
+        [placesTable setDelegate:self];
         [_cellView addSubview:placesTable];
     }
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return [_places count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"cell";
-    OFFLINEPlaceCell *cell = (OFFLINEPlaceCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil)
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"placeCell";
+    
+    OFFLINEPlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[OFFLINEPlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+//    for (OFFLINEPlaceCell *place in [tableView subviews]) {
+//        NSLog(@"subview-%D : cnt-%D", [_places count], cnt);
+//        if (cnt >= [_places count]){
+//            NSLog(@"remove");
+//            [place removeFromSuperview];
+//        }
+//    }
+
+    
+    
     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell setDetails:[_places objectAtIndex:indexPath.row] stopRowIndex:_stopRowIndex];
+    [cell setDetails:[_places objectAtIndex:indexPath.row]];
+    cell.userInteractionEnabled=YES;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSLog(@"cell %@ places count: %D", [cell subviews], [_places count]);
     return cell;
+    
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    _placeDetails = [NSMutableData data];
+    NSDictionary *place = [_places objectAtIndex:indexPath.row];
+    NSDictionary *latlng = [[place objectForKey:@"geometry"] objectForKey:@"location"];
+    NSDictionary *address = [place objectForKey:@"vicinity"];
+    NSDictionary *name = [place objectForKey:@"name"];
+
+    NSString *rawURL = [NSString stringWithFormat :@"%@/moreInfo?address=%@&lat=%@&lng=%@&name=%@", MOREINFO_SERVER, address, [latlng objectForKey:@"lat"], [latlng objectForKey:@"lng"], name];
+    NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
+    NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [conn start];
+    
+    [self getPlaceDetails:tableView indexPath:indexPath];
+}
+
+- (void)getPlaceDetails:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath{
+    OFFLINEPlaceCell *placeCell = (OFFLINEPlaceCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [placeCell selected];
+    [_lineStopsController selected: _stopRowIndex];
+    
+    if(selectedCell != nil) {
+        [selectedCell unselected];
+    }
+    selectedCell = placeCell;
+}
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [_placeDetails appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // convert to JSON
+    NSError *myError = nil;
+    NSMutableDictionary *res = [NSJSONSerialization JSONObjectWithData:_placeDetails options:NSJSONReadingMutableLeaves error:&myError];
+    //NSLog(@"%@", res);
+//    NSString *imgURL = [res objectForKey:@"image_url"];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.

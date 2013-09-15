@@ -23,6 +23,7 @@
         _cellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width-45, self.bounds.size.height-3)];
         _cellView.backgroundColor = [UIColor whiteColor];
         _cellView.layer.cornerRadius = 3;
+        _cellView.tag = 99;
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.bounds.size.width-30, 22)];
         _nameLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
@@ -37,14 +38,12 @@
         _addressLabel.textColor = [UIColor colorWithRed:127/255.0f green:140/255.0f blue:141/255.0f alpha:1.0f];
         _addressLabel.textAlignment = NSTextAlignmentLeft;
         [_cellView addSubview:_addressLabel];
-        
         [self addSubview:_cellView];
     }
     return self;
 }
 
-- (void)setDetails:(NSDictionary *)placesInfo stopRowIndex:(NSInteger)stopRowIndex {
-    NSLog(@"place: %@", [placesInfo objectForKey:@"name"]);
+- (void)setDetails:(NSDictionary *)placesInfo{
     _nameLabel.text = [placesInfo objectForKey:@"name"];
     
     NSString *address=[placesInfo objectForKey:@"vicinity"];
@@ -55,11 +54,24 @@
     _addressLabel.text = address;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+- (void) selected {
+    CGRect frame = _cellView.frame;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.25];
+    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 100)];
+    _cellView.backgroundColor = [UIColor colorWithRed:161/255.0f green:187/255.0f blue:205/255.0f alpha:1.0f];
+    [UIView commitAnimations];
 }
 
+- (void) unselected {
+    CGRect frame = _cellView.frame;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.25];
+    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.bounds.size.height-3)];
+    _cellView.backgroundColor = [UIColor whiteColor];
+    [UIView commitAnimations];
+}
 @end

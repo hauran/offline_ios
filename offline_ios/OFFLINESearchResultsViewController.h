@@ -11,7 +11,6 @@
 
 @interface OFFLINESearchResultsViewController : UIViewController
 -(void) setup;
--(void) resizeRow:(NSInteger)rowIndex;
 @property (nonatomic, strong) OFFLINEViewController *mainViewController;
 @property (nonatomic, strong) NSMutableData *searchResults;
 
@@ -26,5 +25,6 @@
 @property (nonatomic, strong) UITableView * searchResultsTable;
 @property (nonatomic, strong) NSMutableArray *tableData;
 
+- (void)selected:(NSIndexPath *)rowIndex;
 
 @end
