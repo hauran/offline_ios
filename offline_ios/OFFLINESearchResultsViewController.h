@@ -22,7 +22,6 @@
 @property (nonatomic, strong) UILabel *bigLine;
 @property (nonatomic, strong) NSString *searchLine;
 @property (nonatomic, strong) NSString *searchFor;
-@property (nonatomic, strong) UILabel *searchHeader;
 @property (nonatomic, strong) UITableView * searchResultsTable;
 @property (nonatomic, strong) NSMutableArray *tableData;
 @property (nonatomic, strong) DRNRealTimeBlurView *blurView;

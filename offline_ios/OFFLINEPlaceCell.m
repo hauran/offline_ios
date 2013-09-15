@@ -28,14 +28,12 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         _cellView.tag = 99;
 
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.bounds.size.width-30, 22)];
-//        _nameLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         _nameLabel.font = [UIFont systemFontOfSize:15];
         _nameLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [_cellView addSubview:_nameLabel];
         
         _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 20, self.bounds.size.width-30, 20)];
-//        _addressLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         _addressLabel.font = [UIFont systemFontOfSize:13];
         _addressLabel.textColor = [UIColor colorWithRed:127/255.0f green:140/255.0f blue:141/255.0f alpha:1.0f];
         _addressLabel.textAlignment = NSTextAlignmentLeft;

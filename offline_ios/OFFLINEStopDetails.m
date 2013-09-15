@@ -37,8 +37,6 @@ OFFLINEPlaceCell *selectedCell;
         _cellView.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
         
         self.stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 0, self.bounds.size.width-30, 45)];
-//        self.autoresizesSubviews = YES;
-//        self.stopLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         self.stopLabel.font = [UIFont systemFontOfSize:18];
         self.stopLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         self.stopLabel.textAlignment = NSTextAlignmentLeft;
@@ -54,7 +52,6 @@ OFFLINEPlaceCell *selectedCell;
         _dot.text = [NSString fontAwesomeIconStringForIconIdentifier:@"icon-circle"];
         [_cellView addSubview:_dot];
 
-        
         [self addSubview:_cellView];
     }
     return self;
@@ -167,7 +164,6 @@ OFFLINEPlaceCell *selectedCell;
     selectedCell = placeCell;
 }
 
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [_placeDetails appendData:data];
 }
@@ -180,12 +176,9 @@ OFFLINEPlaceCell *selectedCell;
 //    NSString *imgURL = [res objectForKey:@"image_url"];
 }
 
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
-
-
 
 @end

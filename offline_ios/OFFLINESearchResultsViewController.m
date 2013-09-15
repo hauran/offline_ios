@@ -1,8 +1,4 @@
-//
-//  NewAlarmModalViewController.m
-//  rhyze
-//
-//  Created by hauran on 6/27/13.
+//  Created by hauran.
 //  Copyright (c) 2013 Geniot. All rights reserved.
 //
 
@@ -29,7 +25,6 @@
 @synthesize bigLine = _bigLine;
 @synthesize searchLine = _searchLine;
 @synthesize searchFor = _searchFor;
-//@synthesize searchHeader = _searchHeader;
 @synthesize blurView =  _blurView;
 @synthesize searchResultsTable = _searchResultsTable;
 @synthesize tableData = _tableData;
@@ -64,7 +59,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     
     UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
     [backButton.titleLabel setFont:[UIFont fontWithName:kFontAwesomeFamilyName size:35.0]];
-//    [backButton setBackgroundColor:[UIColor colorWithRed:26/255.0f green:188/255.0f blue:156/255.0f alpha:1.0f] forState:UIControlStateNormal];
     
     [backButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -93,12 +87,9 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-//    _searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
-//    _searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
-    
     _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
     [_blurView setTint:[UIColor whiteColor]];
- //    [self.view addSubview:self.blurView];
+    [_blurView setBlurRadius:5.0];
     
     _searchLine = [_mainViewController getSelectedLine];
     _searchFor = [_mainViewController getSearchString];
@@ -117,7 +108,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     }
     _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
     [_searchForLabel setFont:[UIFont boldSystemFontOfSize:20.0]];
-//    _searchForLabel.adjustsFontSizeToFitWidth = YES;
     _searchForLabel.textAlignment = NSTextAlignmentLeft;
     _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
     _searchForLabel.text = _searchFor;
@@ -140,14 +130,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     self.searchResults = [NSMutableData data];
     NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor];
     NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-
-    NSLog(@"%@", url);
-//    NSString *myString = [[NSString alloc] initWithData: encoding:NSUTF8StringEncoding];
-
     NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
-    
-    
-//    NSLog(@"%@", request);
     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [conn start];
 }
@@ -157,35 +140,9 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-//    NSLog(@"connectionDidFinishLoading");
 //    NSLog(@"Succeeded! Received %d bytes of data",[self.searchResults length]);
-    
-    // convert to JSON
     NSError *myError = nil;
     NSMutableDictionary *res = [NSJSONSerialization JSONObjectWithData:self.searchResults options:NSJSONReadingMutableLeaves error:&myError];
-    
-    
-    
-//    for(NSDictionary *stops in res) {
-//        NSLog(@"Stops: %@", stops);
-//    }
-    
-//        SBJsonParser *parser;
-//        NSLog(@"%@", [parser objectWithString:res]);
-    //
-    //    // show all values
-    //    for(id key in res) {
-    //
-    //        id value = [res objectForKey:key];
-    //
-    //        NSString *keyAsString = (NSString *)key;
-    //        NSString *valueAsString = (NSString *)value;
-    //
-    //        NSLog(@"key: %@", keyAsString);
-    //        NSLog(@"value: %@", valueAsString);
-    //    }
-    //
-    //    // extract specific value...
 
     _tableData = [[NSMutableArray alloc] init];
     NSArray *results = [res objectForKey:@"stops"];
