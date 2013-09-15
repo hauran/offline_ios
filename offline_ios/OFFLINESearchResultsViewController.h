@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OFFLINEViewController.h"
+#import "DRNRealTimeBlurView.h"
 
 @interface OFFLINESearchResultsViewController : UIViewController
 -(void) setup;
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) UILabel *searchHeader;
 @property (nonatomic, strong) UITableView * searchResultsTable;
 @property (nonatomic, strong) NSMutableArray *tableData;
+@property (nonatomic, strong) DRNRealTimeBlurView *blurView;
 
 - (void)selected:(NSIndexPath *)rowIndex;
 

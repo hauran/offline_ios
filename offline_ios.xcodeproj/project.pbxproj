@@ -10,6 +10,9 @@
 		9433F69217DFFB9C001B1AD3 /* OFFLINEStopDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F69117DFFB9C001B1AD3 /* OFFLINEStopDetails.m */; };
 		9433F69517E13F17001B1AD3 /* UIBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F69417E13F17001B1AD3 /* UIBorderLabel.m */; };
 		9433F6A217E23897001B1AD3 /* OFFLINEPlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F6A117E23897001B1AD3 /* OFFLINEPlaceCell.m */; };
+		9433F6A417E57395001B1AD3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9433F6A317E57395001B1AD3 /* Accelerate.framework */; };
+		9433F6AA17E62572001B1AD3 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F6A717E62572001B1AD3 /* DRNRealTimeBlurView.m */; };
+		9433F6AB17E62572001B1AD3 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F6A917E62572001B1AD3 /* UIImage+BoxBlur.m */; };
 		945DA89917DE7EF300AB285F /* UIButtonHightlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89817DE7EF300AB285F /* UIButtonHightlight.m */; };
 		945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */; };
 		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
@@ -59,6 +62,11 @@
 		9433F69417E13F17001B1AD3 /* UIBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBorderLabel.m; sourceTree = "<group>"; };
 		9433F6A017E23897001B1AD3 /* OFFLINEPlaceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINEPlaceCell.h; sourceTree = "<group>"; };
 		9433F6A117E23897001B1AD3 /* OFFLINEPlaceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINEPlaceCell.m; sourceTree = "<group>"; };
+		9433F6A317E57395001B1AD3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		9433F6A617E62572001B1AD3 /* DRNRealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNRealTimeBlurView.h; sourceTree = "<group>"; };
+		9433F6A717E62572001B1AD3 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
+		9433F6A817E62572001B1AD3 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		9433F6A917E62572001B1AD3 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
 		945DA89717DE7EF300AB285F /* UIButtonHightlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIButtonHightlight.h; sourceTree = "<group>"; };
 		945DA89817DE7EF300AB285F /* UIButtonHightlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIButtonHightlight.m; sourceTree = "<group>"; };
 		945DA89A17DE81A900AB285F /* OFFLINESearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINESearchResultsViewController.h; sourceTree = "<group>"; };
@@ -117,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9433F6A417E57395001B1AD3 /* Accelerate.framework in Frameworks */,
 				C5596DB817BD3CDF00EB9740 /* CoreGraphics.framework in Frameworks */,
 				C5596DBA17BD3CDF00EB9740 /* UIKit.framework in Frameworks */,
 				C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */,
@@ -136,6 +145,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9433F6A517E624F2001B1AD3 /* blur */ = {
+			isa = PBXGroup;
+			children = (
+				9433F6A617E62572001B1AD3 /* DRNRealTimeBlurView.h */,
+				9433F6A717E62572001B1AD3 /* DRNRealTimeBlurView.m */,
+				9433F6A817E62572001B1AD3 /* UIImage+BoxBlur.h */,
+				9433F6A917E62572001B1AD3 /* UIImage+BoxBlur.m */,
+			);
+			name = blur;
+			sourceTree = "<group>";
+		};
 		C519DB3117DD808700438E4E /* fontawesome */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +188,7 @@
 		C5596DB417BD3CDF00EB9740 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9433F6A317E57395001B1AD3 /* Accelerate.framework */,
 				C5596DB517BD3CDF00EB9740 /* Foundation.framework */,
 				C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */,
 				C5596DB917BD3CDF00EB9740 /* UIKit.framework */,
@@ -179,6 +200,7 @@
 		C5596DBB17BD3CDF00EB9740 /* offline_ios */ = {
 			isa = PBXGroup;
 			children = (
+				9433F6A517E624F2001B1AD3 /* blur */,
 				C519DB3117DD808700438E4E /* fontawesome */,
 				C5596DC417BD3CDF00EB9740 /* OFFLINEAppDelegate.h */,
 				C5596DC517BD3CDF00EB9740 /* OFFLINEAppDelegate.m */,
@@ -367,6 +389,7 @@
 				C5596E0417BD3E8100EB9740 /* SBJsonStreamParserAdapter.m in Sources */,
 				945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */,
 				C5596E0117BD3E8100EB9740 /* SBJsonParser.m in Sources */,
+				9433F6AB17E62572001B1AD3 /* UIImage+BoxBlur.m in Sources */,
 				C5596E0717BD3E8100EB9740 /* SBJsonStreamWriter.m in Sources */,
 				9433F6A217E23897001B1AD3 /* OFFLINEPlaceCell.m in Sources */,
 				C5596E0617BD3E8100EB9740 /* SBJsonStreamTokeniser.m in Sources */,
@@ -377,6 +400,7 @@
 				C5A1939317DAD78E0029E830 /* OFFLINELineData.m in Sources */,
 				C5596E0517BD3E8100EB9740 /* SBJsonStreamParserState.m in Sources */,
 				C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */,
+				9433F6AA17E62572001B1AD3 /* DRNRealTimeBlurView.m in Sources */,
 				9433F69517E13F17001B1AD3 /* UIBorderLabel.m in Sources */,
 				C5596E0817BD3E8100EB9740 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */,

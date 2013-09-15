@@ -12,6 +12,7 @@
 #import "OFFLINELineData.h"
 #import "OFFLINEStopDetails.h"
 #import "fontawesome/NSString+FontAwesome.m"
+#import "DRNRealTimeBlurView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Foundation/Foundation.h>
 
@@ -28,7 +29,8 @@
 @synthesize bigLine = _bigLine;
 @synthesize searchLine = _searchLine;
 @synthesize searchFor = _searchFor;
-@synthesize searchHeader = _searchHeader;
+//@synthesize searchHeader = _searchHeader;
+@synthesize blurView =  _blurView;
 @synthesize searchResultsTable = _searchResultsTable;
 @synthesize tableData = _tableData;
 
@@ -83,7 +85,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     _header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
     [self.view addSubview:_header];
     
-    _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 65, self.view.frame.size.width, 1000)];
+    _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 1000)];
     [self.view addSubview:_searchResultsScrollView];
 }
 
@@ -91,8 +93,12 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-    _searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
-    _searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
+//    _searchHeader = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+//    _searchHeader.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.90f];
+    
+    _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+    [_blurView setTint:[UIColor whiteColor]];
+ //    [self.view addSubview:self.blurView];
     
     _searchLine = [_mainViewController getSelectedLine];
     _searchFor = [_mainViewController getSearchString];
@@ -106,7 +112,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
             _bigLine.text = [lineDetails objectForKey:@"line"];
             _bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
             _bigLine.textColor = [lineDetails objectForKey:@"textColor"];
-            [_searchHeader addSubview:_bigLine];
+            [_blurView addSubview:_bigLine];
         }
     }
     _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
@@ -116,7 +122,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
     _searchForLabel.text = _searchFor;
     _searchForLabel.textColor = [UIColor darkGrayColor];
-    [_searchHeader addSubview:_searchForLabel];
+    [_blurView addSubview:_searchForLabel];
     
     _loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 100, 80)];
     [_loadingString setFont:[UIFont systemFontOfSize:20.0]];
@@ -124,9 +130,9 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     _loadingString.layer.borderColor = [UIColor clearColor].CGColor;
     _loadingString.text = @"Searching...";
     _loadingString.textColor = [UIColor lightGrayColor];
-    [_searchHeader addSubview:_loadingString];
+    [_blurView addSubview:_loadingString];
     
-    [_searchResultsScrollView addSubview:_searchHeader];
+    [_searchResultsScrollView addSubview:_blurView];
     [self doSearch];
 }
 
@@ -201,7 +207,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     [_searchResultsTable setDelegate:self];
     [_searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
 
-    [_searchResultsScrollView insertSubview:_searchResultsTable belowSubview:_searchHeader];
+    [_searchResultsScrollView insertSubview:_searchResultsTable belowSubview:_blurView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
