@@ -14,6 +14,7 @@
 @implementation OFFLINEStopDetails
 
 @synthesize stopLabel = _stopLabel;
+@synthesize placesTable = _placesTable;
 @synthesize places = _places;
 @synthesize cellView = _cellView;
 @synthesize colorRect = _colorRect;
@@ -22,11 +23,11 @@
 @synthesize height = _height;
 @synthesize stopRowIndex = _stopRowIndex;
 @synthesize lineStopsController = _lineStopsController;
+@synthesize selectedPlace = _selectedPlace;
 
 NSString *const MOREINFO_SERVER = @"http://dev-offline.jit.su";
-OFFLINEPlaceCell *selectedCell;
-
-
+NSInteger const SELECTED_PLACE_HEIGHT_DIFF = 100;
+UITableView *selectedPlacesTable;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -52,7 +53,7 @@ OFFLINEPlaceCell *selectedCell;
         _dot.text = [NSString fontAwesomeIconStringForIconIdentifier:@"icon-circle"];
         [_cellView addSubview:_dot];
 
-        [self addSubview:_cellView];
+        [self.contentView addSubview:_cellView];
     }
     return self;
 }
@@ -90,14 +91,15 @@ OFFLINEPlaceCell *selectedCell;
 //            OFFLINEPlaceViewController *place = [[OFFLINEPlaceViewController alloc] init];
 //            [_cellView addSubview:place.view];
 //        }
-        UITableView *placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 40, self.bounds.size.width-45, _height-48) style:UITableViewStylePlain];
-        placesTable.bounces = NO;
-        placesTable.tag = _stopRowIndex;
-        placesTable.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
-        [placesTable registerClass:[OFFLINEPlaceCell class] forCellReuseIdentifier:@"placeCell"];
-        [placesTable setDataSource:self];
-        [placesTable setDelegate:self];
-        [_cellView addSubview:placesTable];
+        
+        _placesTable = [[UITableView alloc] initWithFrame:CGRectMake(30, 40, self.bounds.size.width-45, _height-48) style:UITableViewStylePlain];
+        _placesTable.bounces = NO;
+//        _placesTable.tag = _stopRowIndex;
+        _placesTable.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
+        [_placesTable registerClass:[OFFLINEPlaceCell class] forCellReuseIdentifier:@"placeCell"];
+        [_placesTable setDataSource:self];
+        [_placesTable setDelegate:self];
+        [_cellView addSubview:_placesTable];
     }
 }
 
@@ -110,59 +112,108 @@ OFFLINEPlaceCell *selectedCell;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"placeCell";
-    
-    OFFLINEPlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[OFFLINEPlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-//    for (OFFLINEPlaceCell *place in [tableView subviews]) {
-//        NSLog(@"subview-%D : cnt-%D", [_places count], cnt);
-//        if (cnt >= [_places count]){
-//            NSLog(@"remove");
-//            [place removeFromSuperview];
-//        }
-//    }
+    static NSString *cellIdentifier = @"placeCell";
 
     
-    
+    OFFLINEPlaceCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	if (cell == nil) {
+        NSLog(@"nil - create new place cell");
+        cell = [[OFFLINEPlaceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+	}
+    else {
+        NSLog(@"reuse place cell");
+    }
     cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell setDetails:[_places objectAtIndex:indexPath.row]];
+    
+    bool selected = (_selectedPlace == cell);
+    
+    [cell setDetails:[_places objectAtIndex:indexPath.row] selected:selected];
     cell.userInteractionEnabled=YES;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSLog(@"cell %@ places count: %D", [cell subviews], [_places count]);
-    return cell;
     
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _placeDetails = [NSMutableData data];
-    NSDictionary *place = [_places objectAtIndex:indexPath.row];
-    NSDictionary *latlng = [[place objectForKey:@"geometry"] objectForKey:@"location"];
-    NSDictionary *address = [place objectForKey:@"vicinity"];
-    NSDictionary *name = [place objectForKey:@"name"];
+    OFFLINEPlaceCell *placeCell = (OFFLINEPlaceCell *)[tableView cellForRowAtIndexPath:indexPath];
+    if(_selectedPlace != placeCell) {
+        NSLog(@"PLACE SELECTED");
+        NSDictionary *place = [_places objectAtIndex:indexPath.row];
+        NSDictionary *latlng = [[place objectForKey:@"geometry"] objectForKey:@"location"];
+        NSDictionary *address = [place objectForKey:@"vicinity"];
+        NSDictionary *name = [place objectForKey:@"name"];
 
-    NSString *rawURL = [NSString stringWithFormat :@"%@/moreInfo?address=%@&lat=%@&lng=%@&name=%@", MOREINFO_SERVER, address, [latlng objectForKey:@"lat"], [latlng objectForKey:@"lng"], name];
-    NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
-    NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [conn start];
-    
-    [self getPlaceDetails:tableView indexPath:indexPath];
+        NSString *rawURL = [NSString stringWithFormat :@"%@/moreInfo?address=%@&lat=%@&lng=%@&name=%@", MOREINFO_SERVER, address, [latlng objectForKey:@"lat"], [latlng objectForKey:@"lng"], name];
+        NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
+        NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [conn start];
+        
+        [self getPlaceDetails:tableView indexPath:indexPath];
+    }
 }
+
 
 - (void)getPlaceDetails:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath{
     OFFLINEPlaceCell *placeCell = (OFFLINEPlaceCell *)[tableView cellForRowAtIndexPath:indexPath];
+    _selectedPlace = placeCell;
     [placeCell selected];
-    [_lineStopsController selected: _stopRowIndex];
     
-    if(selectedCell != nil) {
-        [selectedCell unselected];
-    }
-    selectedCell = placeCell;
+//    [_lineStopsController selected: _stopRowIndex];
+//    if(selectedPlace != nil) {
+//        [selectedPlace unselected];
+//        [self pullOtherPlacesBackUp];
+//    }
+//    [self pushOtherPlacesDown:tableView indexPath:indexPath];
+//    selectedPlace = placeCell;
 }
+
+
+- (void)pushOtherPlacesDown:(UITableView *)placesTable indexPath:(NSIndexPath *)rowIndex{
+    NSIndexPath *nextRowIndex;
+    CGRect nextFrame;
+    selectedPlacesTable = placesTable;
+    for (int inc = 1; inc < [placesTable numberOfRowsInSection:0] - rowIndex.row; inc++) {
+        NSInteger newLast = [rowIndex indexAtPosition:rowIndex.length-1]+inc;
+        nextRowIndex = [[rowIndex indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast];
+        OFFLINEPlaceCell *nextPlace = (OFFLINEPlaceCell *)[placesTable cellForRowAtIndexPath:nextRowIndex];
+        nextFrame = nextPlace.frame;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.25];
+        [nextPlace setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y+SELECTED_PLACE_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
+        [UIView commitAnimations];
+    }
+   
+}
+
+- (void)pullOtherPlacesBackUp {
+//    NSArray *cells = [selectedPlacesTable visibleCells];
+    NSMutableArray *cells = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < [selectedPlacesTable numberOfRowsInSection:0]; ++i)
+    {
+        [cells addObject:(OFFLINEPlaceCell * )[selectedPlacesTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+    }
+    
+    int cnt = 0;
+    int y = 0;
+    CGRect placeFrame;
+    for (OFFLINEPlaceCell *cell in cells)
+    {
+        y = (cnt * 45);
+        if(cnt > 0){
+            y = y + (cnt*3);
+        }
+        placeFrame = cell.frame;
+        [cell setFrame:CGRectMake(placeFrame.origin.x, y, placeFrame.size.width, placeFrame.size.height)];
+        cnt++;
+    }
+}
+
+
+
+
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [_placeDetails appendData:data];

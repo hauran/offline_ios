@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 
-- (void)setDetails:(NSDictionary *)placesInfo;
+- (void)setDetails:(NSDictionary *)placesInfo selected:(bool)selected;
 - (void)selected;
 - (void)unselected;
 @end

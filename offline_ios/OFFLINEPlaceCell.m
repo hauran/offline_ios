@@ -38,12 +38,12 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         _addressLabel.textColor = [UIColor colorWithRed:127/255.0f green:140/255.0f blue:141/255.0f alpha:1.0f];
         _addressLabel.textAlignment = NSTextAlignmentLeft;
         [_cellView addSubview:_addressLabel];
-        [self addSubview:_cellView];
+        [self.contentView  addSubview:_cellView];
     }
     return self;
 }
 
-- (void)setDetails:(NSDictionary *)placesInfo{
+- (void)setDetails:(NSDictionary *)placesInfo selected:(bool)selected{
     _nameLabel.text = [placesInfo objectForKey:@"name"];
     
     NSString *address=[placesInfo objectForKey:@"vicinity"];
@@ -52,6 +52,10 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         address = [address substringToIndex:range.location];
     }
     _addressLabel.text = address;
+    
+    if(selected){
+        [self selected];
+    }
 }
 
 
@@ -60,8 +64,17 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.25];
+    
+    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + SELECTED_HEIGHT_DIFF_PLACE)];
     [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + SELECTED_HEIGHT_DIFF_PLACE)];
     _cellView.backgroundColor = [UIColor colorWithRed:161/255.0f green:187/255.0f blue:205/255.0f alpha:1.0f];
+    
+//    UILabel *yelpDetails = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.bounds.size.width-30, 80)];
+//    yelpDetails.font = [UIFont systemFontOfSize:15];
+//    yelpDetails.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
+//    yelpDetails.textAlignment = NSTextAlignmentLeft;
+//    yelpDetails.text = @"YELP";
+//    [_cellView addSubview:yelpDetails];
     [UIView commitAnimations];
 }
 
@@ -70,7 +83,9 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.25];
-    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.bounds.size.height-3)];
+    
+    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 45)];
+    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 45)];
     _cellView.backgroundColor = [UIColor whiteColor];
     [UIView commitAnimations];
 }

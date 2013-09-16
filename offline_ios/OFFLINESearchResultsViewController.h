@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *tableData;
 @property (nonatomic, strong) DRNRealTimeBlurView *blurView;
 
+
+
 - (void)selected:(NSIndexPath *)rowIndex;
 
 @end
