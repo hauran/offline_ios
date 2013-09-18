@@ -10,6 +10,7 @@
 #import "OFFLINEPlaceCell.h"
 #import "fontawesome/NSString+FontAwesome.m"
 #import "DRNRealTimeBlurView.h"
+#import "OFFLINETitleBar.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Foundation/Foundation.h>
 
@@ -55,28 +56,9 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    _header = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
-    _header.backgroundColor = [UIColor colorWithRed:52/255.0f green:73/255.0f blue:94/255.0f alpha:1.0f];
-    
-    UIButtonHightlight *backButton = [[UIButtonHightlight alloc] init];
-    [backButton.titleLabel setFont:[UIFont fontWithName:kFontAwesomeFamilyName size:35.0]];
-    
-    [backButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backButton setTitle: [NSString fontAwesomeIconStringForIconIdentifier:@"icon-angle-left"] forState:UIControlStateNormal];
-    backButton.layer.cornerRadius = 5;
-    backButton.frame = CGRectMake(self.view.frame.size.width-35, 5, 30, 30);
-    
-    UITapGestureRecognizer *closeAlarmModal = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeModal:)];
-    closeAlarmModal.numberOfTapsRequired = 1;
-    [backButton setUserInteractionEnabled:YES];
-    [backButton addGestureRecognizer:closeAlarmModal];
-    [_header addSubview:backButton];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, 0, 1, 40)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [_header addSubview:lineView];
-    _header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
+    _header = [[OFFLINETitleBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+    _header.stopsViewController = self;
+    [_header showBackButton];
     [self.view addSubview:_header];
     
     _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-60)];
@@ -148,8 +130,15 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     NSError *myError = nil;
     NSMutableDictionary *res = [NSJSONSerialization JSONObjectWithData:self.searchResults options:NSJSONReadingMutableLeaves error:&myError];
     
-    _searchResultsView = [[UIView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, self.view.frame.size.height-80)];
-    [_searchResultsScrollView insertSubview:_searchResultsView belowSubview:_blurView];
+    if(_searchResultsView == nil) {
+        _searchResultsView = [[UIView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, self.view.frame.size.height-80)];
+        [_searchResultsScrollView insertSubview:_searchResultsView belowSubview:_blurView];
+    }
+    else {
+        for (UIView *view in [_searchResultsView subviews]){
+            [view removeFromSuperview];
+        }
+    }
     
     _tableData = [[NSMutableArray alloc] init];
     NSArray *results = [res objectForKey:@"stops"];
@@ -248,7 +237,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)closeModal:(UIButton *)sender {
+- (void)closeSearchResults  {
     [_loadingString removeFromSuperview];
     [_searchForLabel removeFromSuperview];
     [_bigLine removeFromSuperview];

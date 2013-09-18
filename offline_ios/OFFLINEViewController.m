@@ -11,6 +11,7 @@
 #import "OFFLINELineData.h"
 #import "OFFLINESearchResultsViewController.h"
 #import "UIButtonHightlight.h"
+#import "OFFLINETitleBar.h"
 #import <QuartzCore/QuartzCore.h>
 #import "fontawesome/NSString+FontAwesome.m"
 
@@ -47,9 +48,11 @@ NSMutableArray *collectionLineCellArray;
 }
 
 - (void)setUp{
-    collecitonScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height)];
+    OFFLINETitleBar *header = [[OFFLINETitleBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+    [header hideBackButton];
+    [self.view addSubview:header];
     
-    
+    collecitonScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-40)];
     
     
     textColor = [UIColor colorWithRed:129/255.0f green:129/255.0f blue:129/255.0f alpha:1.0f];

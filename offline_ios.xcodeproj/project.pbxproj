@@ -17,6 +17,7 @@
 		945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */; };
 		945F08C317E94212000C723A /* OFFLINEYelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C217E94212000C723A /* OFFLINEYelp.m */; };
 		945F08C617E94B79000C723A /* OFFLINEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C517E94B79000C723A /* OFFLINEMap.m */; };
+		945F08CF17EA1C40000C723A /* OFFLINETitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08CE17EA1C40000C723A /* OFFLINETitleBar.m */; };
 		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
 		C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = C519DB3417DD809600438E4E /* NSString+FontAwesome.m */; };
 		C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
@@ -77,6 +78,8 @@
 		945F08C217E94212000C723A /* OFFLINEYelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINEYelp.m; sourceTree = "<group>"; };
 		945F08C417E94B79000C723A /* OFFLINEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINEMap.h; sourceTree = "<group>"; };
 		945F08C517E94B79000C723A /* OFFLINEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINEMap.m; sourceTree = "<group>"; };
+		945F08CD17EA1C40000C723A /* OFFLINETitleBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINETitleBar.h; sourceTree = "<group>"; };
+		945F08CE17EA1C40000C723A /* OFFLINETitleBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINETitleBar.m; sourceTree = "<group>"; };
 		C519DB3217DD809600438E4E /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = fontawesome/FontAwesome.ttf; sourceTree = "<group>"; };
 		C519DB3317DD809600438E4E /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FontAwesome.h"; path = "fontawesome/NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		C519DB3417DD809600438E4E /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FontAwesome.m"; path = "fontawesome/NSString+FontAwesome.m"; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 				C5596DC717BD3CDF00EB9740 /* Main.storyboard */,
 				C5A1939117DAD78E0029E830 /* OFFLINELineData.h */,
 				C5A1939217DAD78E0029E830 /* OFFLINELineData.m */,
+				945F08CD17EA1C40000C723A /* OFFLINETitleBar.h */,
+				945F08CE17EA1C40000C723A /* OFFLINETitleBar.m */,
 				C5596DCA17BD3CDF00EB9740 /* OFFLINEViewController.h */,
 				C5596DCB17BD3CDF00EB9740 /* OFFLINEViewController.m */,
 				C5596E0E17C2DDDC00EB9740 /* OFFLINELineCell.h */,
@@ -394,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				945F08CF17EA1C40000C723A /* OFFLINETitleBar.m in Sources */,
 				C5596DC617BD3CDF00EB9740 /* OFFLINEAppDelegate.m in Sources */,
 				C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */,
 				C5596E0417BD3E8100EB9740 /* SBJsonStreamParserAdapter.m in Sources */,

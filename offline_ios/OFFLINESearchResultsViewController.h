@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "OFFLINEViewController.h"
+#import "OFFLINETitleBar.h"
 #import "DRNRealTimeBlurView.h"
 
 @interface OFFLINESearchResultsViewController : UIViewController
 @property (nonatomic, strong) OFFLINEViewController *mainViewController;
 @property (nonatomic, strong) NSMutableData *searchResults;
-@property (nonatomic, strong) UIScrollView *header;
+@property (nonatomic, strong) OFFLINETitleBar *header;
 @property (nonatomic, strong) UIScrollView *searchResultsScrollView;
 @property (nonatomic, strong) UILabel *searchForLabel;
 @property (nonatomic, strong) UILabel *loadingString;
@@ -26,5 +27,6 @@
 @property (nonatomic) int selectedStopIndex;
 
 - (void) setup;
-- (void)selected:(int)rowIndex placeTag:(int)placeTag;
+- (void) selected:(int)rowIndex placeTag:(int)placeTag;
+- (void) closeSearchResults;
 @end
