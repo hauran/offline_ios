@@ -8,24 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import "OFFLINESearchResultsViewController.h"
-#import "OFFLINEPlaceCell.h"
 #import "UIBorderLabel.h"
 
-@interface OFFLINEStopDetails : UITableViewCell
+@interface OFFLINEStopDetails : UIView
 
 @property (nonatomic, strong) UILabel *stopLabel;
-@property (nonatomic, strong) NSArray *places;
+@property (nonatomic, strong) NSMutableArray *places;
 @property (nonatomic, strong) UITableView *placesTable;
-@property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UILabel *colorRect;
 @property (nonatomic, strong) UILabel *dot;
 @property (nonatomic, strong) NSMutableData *placeDetails;
-@property (nonatomic, strong) NSIndexPath * stopRowIndex;
 @property (nonatomic, strong) OFFLINESearchResultsViewController *lineStopsController;
-@property (nonatomic, strong) OFFLINEPlaceCell *selectedPlace;
 @property (nonatomic) NSInteger height;
+@property (nonatomic) NSInteger stopIndex;
 
 - (void)resetPlaces;
-- (void)setDetails:(NSDictionary *)stopResults index:(NSIndexPath *)index lineStopsController:(OFFLINESearchResultsViewController *)lineStopsController;
+- (void)setDetails:(NSDictionary *)stopResults lineStopsController:(OFFLINESearchResultsViewController *)lineStopsController;
+- (void)selectedPlace:(NSInteger)tag stopIndex:(int)stopIndex;
 
 @end

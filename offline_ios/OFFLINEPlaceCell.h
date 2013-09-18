@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OFFLINEStopDetails.h"
 
-@interface OFFLINEPlaceCell : UITableViewCell
+@interface OFFLINEPlaceCell : UIView
 
-@property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic) int stopIndex;
+@property (nonatomic, strong) OFFLINEStopDetails *stop;
+@property (nonatomic) bool isSelected;
+@property (nonatomic, strong) UIView *yelpView;
 
-- (void)setDetails:(NSDictionary *)placesInfo selected:(bool)selected;
+- (void)setDetails:(NSDictionary *)placesInfo;
 - (void)selected;
-- (void)unselected;
 @end

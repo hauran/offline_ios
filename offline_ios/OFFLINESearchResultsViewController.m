@@ -26,12 +26,12 @@
 @synthesize searchLine = _searchLine;
 @synthesize searchFor = _searchFor;
 @synthesize blurView =  _blurView;
-@synthesize searchResultsTable = _searchResultsTable;
+@synthesize searchResultsView = _searchResultsView;
 @synthesize tableData = _tableData;
+@synthesize selectedStopIndex = _selectedStopIndex;
 
 
 UIButtonHightlight *newAlarmButton;
-NSIndexPath *selectedRowIndex;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
 NSInteger const SELECTED_HEIGHT_DIFF = 100;
 
@@ -78,15 +78,17 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     _header.contentSize = CGSizeMake(self.view.frame.size.width, 40);
     [self.view addSubview:_header];
     
-    _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 1000)];
+    _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-60)];
+    _searchResultsScrollView.userInteractionEnabled = YES;
     [self.view addSubview:_searchResultsScrollView];
 }
+
 
 -(void) setup {
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-    _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+    _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 75)];
     [_blurView setTint:[UIColor whiteColor]];
     [_blurView setBlurRadius:120.0];
     
@@ -121,9 +123,10 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     _loadingString.textColor = [UIColor lightGrayColor];
     [_blurView addSubview:_loadingString];
     
-    [_searchResultsScrollView addSubview:_blurView];
+    [self.view addSubview:_blurView];
     [self doSearch];
 }
+
 
 -(void) doSearch{
     self.searchResults = [NSMutableData data];
@@ -134,15 +137,19 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
     [conn start];
 }
 
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.searchResults appendData:data];
 }
 
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-//    NSLog(@"Succeeded! Received %d bytes of data",[self.searchResults length]);
     NSError *myError = nil;
     NSMutableDictionary *res = [NSJSONSerialization JSONObjectWithData:self.searchResults options:NSJSONReadingMutableLeaves error:&myError];
-
+    
+    _searchResultsView = [[UIView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, self.view.frame.size.height-80)];
+    [_searchResultsScrollView insertSubview:_searchResultsView belowSubview:_blurView];
+    
     _tableData = [[NSMutableArray alloc] init];
     NSArray *results = [res objectForKey:@"stops"];
     for (NSDictionary *result in results) {
@@ -153,96 +160,72 @@ NSInteger const SELECTED_HEIGHT_DIFF = 100;
         [_tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop", _bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
     }
     
+    int cnt = 0, y=0, h=0, placesCount;
+    OFFLINEStopDetails *stopView;
+    for(NSDictionary *stop in _tableData){
+        placesCount = [[stop objectForKey:@"places"] count];
+        h = (placesCount * 45.0) + 45.0;
+        stopView = [[OFFLINEStopDetails alloc] initWithFrame:CGRectMake(0, y, self.view.frame.size.width, h)];
+        stopView.stopIndex = cnt;
+        stopView.tag = cnt;
+        [stopView setDetails: stop lineStopsController:self];
+        [_searchResultsView addSubview:stopView];
+        y = y + h + 3;
+        cnt++;
+    }
     
+    [_searchResultsView setFrame:CGRectMake(0,75,self.view.frame.size.width,y)];
+    [_searchResultsScrollView setContentSize:CGSizeMake(self.view.frame.size.width,y+75)];
     [_loadingString removeFromSuperview];
-    _searchResultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 15, self.view.frame.size.width, self.view.frame.size.height-80) style:UITableViewStylePlain];
-    [_searchResultsTable setDataSource:self];
-    [_searchResultsTable setDelegate:self];
-    [_searchResultsTable registerClass:[OFFLINEStopDetails class] forCellReuseIdentifier:@"stopCell"];
-    [_searchResultsTable setContentInset:UIEdgeInsetsMake(55,0,0,0)];
-
-    [_searchResultsScrollView insertSubview:_searchResultsTable belowSubview:_blurView];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"stopCell";
-    
-    OFFLINEStopDetails *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        NSLog(@"nil - create new stop cell");
-        cell = [[OFFLINEStopDetails alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-	}
-    else {
-        NSLog(@"reuse stop cell");
-    }
-    
-    cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [cell setDetails:[_tableData objectAtIndex:indexPath.row] index:indexPath lineStopsController:self ];
-    cell.userInteractionEnabled=YES;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger placesCount = [[[_tableData objectAtIndex:indexPath.row] objectForKey:@"places"] count];
-    return (placesCount * 45.0) + 45.0;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_tableData count];
-}
+- (void) selected:(int)rowIndex {
+    CGRect frame;
+    CGRect nextFrame;
+    int newHeight;
+    OFFLINEStopDetails *nextStop;
 
-- (void) selected:(NSIndexPath *)rowIndex {
-    NSLog(@"selected stop #%D", rowIndex.row);
-    
-//    if(selectedRowIndex !=  nil){
-//        OFFLINEStopDetails *selectedStop = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:selectedRowIndex];
-//        [selectedStop resetPlaces];
-//    }
-    
-    if(selectedRowIndex != rowIndex){
-        NSLog(@"STOP SELECTED");
-        selectedRowIndex = rowIndex;
-        OFFLINEStopDetails *stopDetails = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:rowIndex];
-//    NSLog(@"%@", stopDetails);
-        CGRect frame = stopDetails.frame;
-        CGRect cellViewFrame = stopDetails.cellView.frame;
-        CGRect placesTableFrame = stopDetails.placesTable.frame;
-        int newHeight = frame.size.height + SELECTED_HEIGHT_DIFF;
+    if(_selectedStopIndex){
+        OFFLINEStopDetails *currentlySelectedStop = (OFFLINEStopDetails *)[_searchResultsView viewWithTag:_selectedStopIndex];
+        //set places back to default size and position
+        [currentlySelectedStop resetPlaces];
+        
+        if(_selectedStopIndex != rowIndex){
+            NSLog(@"here");
+            //collapse this row to default height
+            frame = currentlySelectedStop.frame;
+            newHeight = frame.size.height - SELECTED_HEIGHT_DIFF;
+            [currentlySelectedStop.colorRect setFrame:CGRectMake(0, 0, 20, newHeight)];
+            [currentlySelectedStop setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, newHeight)];
 
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.25];
-        [stopDetails setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, newHeight)];
-        [stopDetails.colorRect setFrame:CGRectMake(0, 0, 20, newHeight)];
-        [stopDetails.cellView setFrame:CGRectMake(cellViewFrame.origin.x, cellViewFrame.origin.y, cellViewFrame.size.width, cellViewFrame.size.width + SELECTED_HEIGHT_DIFF)];
-        [stopDetails.placesTable  setFrame:CGRectMake(placesTableFrame.origin.x, placesTableFrame.origin.y, placesTableFrame.size.width, placesTableFrame.size.height + SELECTED_HEIGHT_DIFF)];
-        [UIView commitAnimations];
-    
-        NSIndexPath *nextRowIndex;
-        CGRect nextFrame;
-        for (int inc = 1; inc < [_searchResultsTable numberOfRowsInSection:0] - rowIndex.row; inc++) {
-            NSInteger newLast = [rowIndex indexAtPosition:rowIndex.length-1]+inc;
-            nextRowIndex = [[rowIndex indexPathByRemovingLastIndex] indexPathByAddingIndex:newLast];
-            OFFLINEStopDetails *nextStop = (OFFLINEStopDetails *)[_searchResultsTable cellForRowAtIndexPath:nextRowIndex];
-            
-            nextFrame = nextStop.frame;
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.25];
-            [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y+SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
-            [UIView commitAnimations];
+            //move all stops after currently selected stop up to default position
+            for (int inc = 1; inc < [_tableData count] - _selectedStopIndex; inc++) {
+                nextStop = (OFFLINEStopDetails *)[_searchResultsView viewWithTag:_selectedStopIndex+inc];
+                nextFrame = nextStop.frame;
+                [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y-SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
+            }
         }
-       
+        
     }
-}
-
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    
+    if(_selectedStopIndex != rowIndex){
+        //expand the newly selected stop
+        _selectedStopIndex = rowIndex;
+        OFFLINEStopDetails *newSelectedStop = (OFFLINEStopDetails *)[_searchResultsView viewWithTag:_selectedStopIndex];
+        frame = newSelectedStop.frame;
+        newHeight = frame.size.height + SELECTED_HEIGHT_DIFF;
+        
+        [newSelectedStop.colorRect setFrame:CGRectMake(0, 0, 20, newHeight)];
+        [newSelectedStop setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, newHeight)];
+        
+        //move all stops after newly selected stop down
+        for (int inc = 1; inc < [_tableData count] - _selectedStopIndex; inc++) {
+            nextStop = (OFFLINEStopDetails *)[_searchResultsView viewWithTag:_selectedStopIndex+inc];
+            nextFrame = nextStop.frame;
+            [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y+SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -11,10 +11,8 @@
 #import "DRNRealTimeBlurView.h"
 
 @interface OFFLINESearchResultsViewController : UIViewController
--(void) setup;
 @property (nonatomic, strong) OFFLINEViewController *mainViewController;
 @property (nonatomic, strong) NSMutableData *searchResults;
-
 @property (nonatomic, strong) UIScrollView *header;
 @property (nonatomic, strong) UIScrollView *searchResultsScrollView;
 @property (nonatomic, strong) UILabel *searchForLabel;
@@ -22,12 +20,11 @@
 @property (nonatomic, strong) UILabel *bigLine;
 @property (nonatomic, strong) NSString *searchLine;
 @property (nonatomic, strong) NSString *searchFor;
-@property (nonatomic, strong) UITableView * searchResultsTable;
+@property (nonatomic, strong) UIView * searchResultsView;
 @property (nonatomic, strong) NSMutableArray *tableData;
 @property (nonatomic, strong) DRNRealTimeBlurView *blurView;
+@property (nonatomic) int selectedStopIndex;
 
-
-
-- (void)selected:(NSIndexPath *)rowIndex;
-
+- (void) setup;
+- (void)selected:(int)rowIndex;
 @end

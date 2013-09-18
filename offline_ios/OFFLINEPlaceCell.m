@@ -10,40 +10,45 @@
 
 @implementation OFFLINEPlaceCell
 
-@synthesize cellView = _cellView;
 @synthesize nameLabel = _nameLabel;
 @synthesize addressLabel = _addressLabel;
+@synthesize stop = _stop;
+@synthesize stopIndex = _stopIndex;
+@synthesize isSelected = _isSelected;
+@synthesize yelpView = _yelpView;
 
 NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+
+
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame];
     if (self) {
+        _isSelected = NO;
         self.backgroundColor = [UIColor colorWithRed:236/255.0f green:240/255.0f blue:241/255.0f alpha:1.0f];
-
-        _cellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width-45, self.bounds.size.height-3)];
-        _cellView.backgroundColor = [UIColor whiteColor];
-        _cellView.layer.cornerRadius = 3;
-        _cellView.tag = 99;
-
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.bounds.size.width-30, 22)];
+        self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 3;
+        
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 1, self.frame.size.width-30, 22)];
         _nameLabel.font = [UIFont systemFontOfSize:15];
         _nameLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
-        [_cellView addSubview:_nameLabel];
+        [self addSubview:_nameLabel];
         
-        _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 20, self.bounds.size.width-30, 20)];
+        _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 21, self.frame.size.width-30, 20)];
         _addressLabel.font = [UIFont systemFontOfSize:13];
         _addressLabel.textColor = [UIColor colorWithRed:127/255.0f green:140/255.0f blue:141/255.0f alpha:1.0f];
         _addressLabel.textAlignment = NSTextAlignmentLeft;
-        [_cellView addSubview:_addressLabel];
-        [self.contentView  addSubview:_cellView];
+        [self addSubview:_addressLabel];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selected)];
+        [self addGestureRecognizer:tap];
     }
     return self;
 }
 
-- (void)setDetails:(NSDictionary *)placesInfo selected:(bool)selected{
+- (void)setDetails:(NSMutableDictionary *)placesInfo {
     _nameLabel.text = [placesInfo objectForKey:@"name"];
     
     NSString *address=[placesInfo objectForKey:@"vicinity"];
@@ -52,41 +57,35 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         address = [address substringToIndex:range.location];
     }
     _addressLabel.text = address;
-    
-    if(selected){
-        [self selected];
-    }
 }
 
 
 - (void) selected {
-    CGRect frame = _cellView.frame;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25];
-    
-    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + SELECTED_HEIGHT_DIFF_PLACE)];
-    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + SELECTED_HEIGHT_DIFF_PLACE)];
-    _cellView.backgroundColor = [UIColor colorWithRed:161/255.0f green:187/255.0f blue:205/255.0f alpha:1.0f];
-    
-//    UILabel *yelpDetails = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, self.bounds.size.width-30, 80)];
-//    yelpDetails.font = [UIFont systemFontOfSize:15];
-//    yelpDetails.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
-//    yelpDetails.textAlignment = NSTextAlignmentLeft;
-//    yelpDetails.text = @"YELP";
-//    [_cellView addSubview:yelpDetails];
-    [UIView commitAnimations];
-}
+    if(!_isSelected) {
+        _isSelected = YES;
 
-- (void) unselected {
-    CGRect frame = _cellView.frame;
+        [_stop selectedPlace:self.tag stopIndex:_stopIndex];
+        CGRect frame = self.frame;
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25];
+        [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + SELECTED_HEIGHT_DIFF_PLACE)];
+        self.backgroundColor = [UIColor colorWithRed:161/255.0f green:187/255.0f blue:205/255.0f alpha:1.0f];
+        _nameLabel.textColor = [UIColor whiteColor];
+        _addressLabel.textColor = [UIColor whiteColor];
     
-    [self setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 45)];
-    [_cellView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 45)];
-    _cellView.backgroundColor = [UIColor whiteColor];
-    [UIView commitAnimations];
+        if(_yelpView){
+            _yelpView.hidden = NO;
+        }
+        else {
+            _yelpView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, self.bounds.size.width-30, 80)];        
+            UILabel *yelpDetails = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, self.bounds.size.width-30, 80)];
+            yelpDetails.font = [UIFont systemFontOfSize:15];
+            yelpDetails.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
+            yelpDetails.textAlignment = NSTextAlignmentLeft;
+            yelpDetails.text = @"YELP";
+            [_yelpView addSubview:yelpDetails];
+            [self addSubview:_yelpView];
+        }
+        
+    }
 }
 @end
