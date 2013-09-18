@@ -33,7 +33,7 @@
 
 UIButtonHightlight *newAlarmButton;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
-NSInteger const SELECTED_HEIGHT_DIFF = 100;
+NSInteger const SELECTED_HEIGHT_DIFF = 385;
 
 @synthesize mainViewController = _mainViewController;
 @synthesize searchResults = _searchResults;

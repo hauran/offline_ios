@@ -25,7 +25,7 @@
 @synthesize lineStopsController = _lineStopsController;
 
 NSString *const MOREINFO_SERVER = @"http://dev-offline.jit.su";
-NSInteger const SELECTED_PLACE_HEIGHT_DIFF = 100;
+NSInteger const SELECTED_PLACE_HEIGHT_DIFF = 385;
 UITableView *selectedPlacesTable;
 
 

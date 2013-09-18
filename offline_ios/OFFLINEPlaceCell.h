@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "OFFLINEStopDetails.h"
+#import "OFFLINEYelp.h"
+#import "OFFLINEMap.h"
 
 @interface OFFLINEPlaceCell : UIView
 
@@ -16,7 +18,8 @@
 @property (nonatomic) int stopIndex;
 @property (nonatomic, strong) OFFLINEStopDetails *stop;
 @property (nonatomic) bool isSelected;
-@property (nonatomic, strong) UIView *yelpView;
+@property (nonatomic, strong) OFFLINEYelp *yelpView;
+@property (nonatomic, strong) OFFLINEMap *mapView;
 
 - (void)setDetails:(NSDictionary *)placesInfo;
 - (void)selected;

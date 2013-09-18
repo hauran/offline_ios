@@ -7,6 +7,7 @@
 //
 
 #import "OFFLINEPlaceCell.h"
+#import "OFFLINEYelp.h"
 
 @implementation OFFLINEPlaceCell
 
@@ -16,8 +17,9 @@
 @synthesize stopIndex = _stopIndex;
 @synthesize isSelected = _isSelected;
 @synthesize yelpView = _yelpView;
+@synthesize mapView = _mapView;
 
-NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
+NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
 
 
 
@@ -31,7 +33,7 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         self.layer.cornerRadius = 3;
         
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 1, self.frame.size.width-30, 22)];
-        _nameLabel.font = [UIFont systemFontOfSize:15];
+        _nameLabel.font = [UIFont systemFontOfSize:16];
         _nameLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_nameLabel];
@@ -72,18 +74,15 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 100;
         _nameLabel.textColor = [UIColor whiteColor];
         _addressLabel.textColor = [UIColor whiteColor];
     
-        if(_yelpView){
+        if(_mapView){
             _yelpView.hidden = NO;
+            _mapView.hidden = NO;
         }
         else {
-            _yelpView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, self.bounds.size.width-30, 80)];        
-            UILabel *yelpDetails = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, self.bounds.size.width-30, 80)];
-            yelpDetails.font = [UIFont systemFontOfSize:15];
-            yelpDetails.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
-            yelpDetails.textAlignment = NSTextAlignmentLeft;
-            yelpDetails.text = @"YELP";
-            [_yelpView addSubview:yelpDetails];
-            [self addSubview:_yelpView];
+            _mapView = [[OFFLINEMap alloc] initWithFrame:CGRectMake(5, 45, self.bounds.size.width-10, 220)];
+            _yelpView = [[OFFLINEYelp alloc] initWithFrame:CGRectMake(5, 270, self.bounds.size.width-10, 150)];
+            [self addSubview: _mapView];
+            [self addSubview: _yelpView];
         }
         
     }

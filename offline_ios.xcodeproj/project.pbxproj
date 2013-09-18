@@ -15,6 +15,8 @@
 		9433F6AB17E62572001B1AD3 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 9433F6A917E62572001B1AD3 /* UIImage+BoxBlur.m */; };
 		945DA89917DE7EF300AB285F /* UIButtonHightlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89817DE7EF300AB285F /* UIButtonHightlight.m */; };
 		945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */; };
+		945F08C317E94212000C723A /* OFFLINEYelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C217E94212000C723A /* OFFLINEYelp.m */; };
+		945F08C617E94B79000C723A /* OFFLINEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C517E94B79000C723A /* OFFLINEMap.m */; };
 		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
 		C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = C519DB3417DD809600438E4E /* NSString+FontAwesome.m */; };
 		C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
@@ -71,6 +73,10 @@
 		945DA89817DE7EF300AB285F /* UIButtonHightlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIButtonHightlight.m; sourceTree = "<group>"; };
 		945DA89A17DE81A900AB285F /* OFFLINESearchResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINESearchResultsViewController.h; sourceTree = "<group>"; };
 		945DA89B17DE81A900AB285F /* OFFLINESearchResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINESearchResultsViewController.m; sourceTree = "<group>"; };
+		945F08C117E94212000C723A /* OFFLINEYelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINEYelp.h; sourceTree = "<group>"; };
+		945F08C217E94212000C723A /* OFFLINEYelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINEYelp.m; sourceTree = "<group>"; };
+		945F08C417E94B79000C723A /* OFFLINEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINEMap.h; sourceTree = "<group>"; };
+		945F08C517E94B79000C723A /* OFFLINEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINEMap.m; sourceTree = "<group>"; };
 		C519DB3217DD809600438E4E /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = fontawesome/FontAwesome.ttf; sourceTree = "<group>"; };
 		C519DB3317DD809600438E4E /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FontAwesome.h"; path = "fontawesome/NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		C519DB3417DD809600438E4E /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FontAwesome.m"; path = "fontawesome/NSString+FontAwesome.m"; sourceTree = "<group>"; };
@@ -217,6 +223,10 @@
 				9433F69117DFFB9C001B1AD3 /* OFFLINEStopDetails.m */,
 				9433F6A017E23897001B1AD3 /* OFFLINEPlaceCell.h */,
 				9433F6A117E23897001B1AD3 /* OFFLINEPlaceCell.m */,
+				945F08C117E94212000C723A /* OFFLINEYelp.h */,
+				945F08C217E94212000C723A /* OFFLINEYelp.m */,
+				945F08C417E94B79000C723A /* OFFLINEMap.h */,
+				945F08C517E94B79000C723A /* OFFLINEMap.m */,
 				C5596DCD17BD3CDF00EB9740 /* Images.xcassets */,
 				C5596DEB17BD3E6400EB9740 /* JSON Framework */,
 				C5596DBC17BD3CDF00EB9740 /* Supporting Files */,
@@ -387,8 +397,10 @@
 				C5596DC617BD3CDF00EB9740 /* OFFLINEAppDelegate.m in Sources */,
 				C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */,
 				C5596E0417BD3E8100EB9740 /* SBJsonStreamParserAdapter.m in Sources */,
+				945F08C617E94B79000C723A /* OFFLINEMap.m in Sources */,
 				945DA89C17DE81A900AB285F /* OFFLINESearchResultsViewController.m in Sources */,
 				C5596E0117BD3E8100EB9740 /* SBJsonParser.m in Sources */,
+				945F08C317E94212000C723A /* OFFLINEYelp.m in Sources */,
 				9433F6AB17E62572001B1AD3 /* UIImage+BoxBlur.m in Sources */,
 				C5596E0717BD3E8100EB9740 /* SBJsonStreamWriter.m in Sources */,
 				9433F6A217E23897001B1AD3 /* OFFLINEPlaceCell.m in Sources */,
