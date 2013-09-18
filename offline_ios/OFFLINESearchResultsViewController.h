@@ -26,5 +26,5 @@
 @property (nonatomic) int selectedStopIndex;
 
 - (void) setup;
-- (void)selected:(int)rowIndex;
+- (void)selected:(int)rowIndex placeTag:(int)placeTag;
 @end

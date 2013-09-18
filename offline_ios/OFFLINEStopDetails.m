@@ -77,7 +77,7 @@ UITableView *selectedPlacesTable;
         for(NSDictionary *place in _places){
             y = (cnt * 45) + 35;
             placeView = [[OFFLINEPlaceCell alloc] initWithFrame:CGRectMake(28, y, self.frame.size.width-35, 42)];
-            placeView.tag = 100 + cnt;
+            placeView.tag = (_stopIndex * 100) + cnt;
             [placeView setDetails: place];
             placeView.stopIndex = _stopIndex;
             placeView.stop = self;
@@ -88,7 +88,7 @@ UITableView *selectedPlacesTable;
 }
 
 - (void)selectedPlace:(NSInteger)selectedTag stopIndex:(int)stopIndex {
-    [_lineStopsController selected: stopIndex];
+    [_lineStopsController selected: stopIndex placeTag: selectedTag];
     // push down other places
     CGRect nextFrame;
     for(OFFLINEPlaceCell *nextPlace in [self subviews]){
@@ -112,6 +112,7 @@ UITableView *selectedPlacesTable;
             nextPlace.nameLabel.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
             nextPlace.addressLabel.textColor = [UIColor colorWithRed:127/255.0f green:140/255.0f blue:141/255.0f alpha:1.0f];
             nextPlace.yelpView.hidden = YES;
+            nextPlace.mapView.hidden = YES;
             cnt++;
         }
     }

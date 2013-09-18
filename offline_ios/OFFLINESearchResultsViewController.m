@@ -7,6 +7,7 @@
 #import "OFFLINEViewController.h"
 #import "OFFLINELineData.h"
 #import "OFFLINEStopDetails.h"
+#import "OFFLINEPlaceCell.h"
 #import "fontawesome/NSString+FontAwesome.m"
 #import "DRNRealTimeBlurView.h"
 #import <QuartzCore/QuartzCore.h>
@@ -180,7 +181,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 }
 
 
-- (void) selected:(int)rowIndex {
+- (void) selected:(int)rowIndex placeTag:(int)placeTag {
     CGRect frame;
     CGRect nextFrame;
     int newHeight;
@@ -226,7 +227,20 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
             [nextStop setFrame:CGRectMake(nextFrame.origin.x, nextFrame.origin.y+SELECTED_HEIGHT_DIFF, nextFrame.size.width, nextFrame.size.height)];
         }
     }
+    [self scrollToPlace:placeTag];
 }
+
+- (void) scrollToPlace:(int)placeTag {
+    OFFLINEPlaceCell *place = (OFFLINEPlaceCell *)[self.view viewWithTag:placeTag];
+    int placeY = place.frame.origin.y;
+    
+    OFFLINEStopDetails *stop = (OFFLINEStopDetails *)[self.view viewWithTag:_selectedStopIndex];
+    int stopY = stop.frame.origin.y;
+    
+    CGPoint placeOffset = CGPointMake(0, stopY + placeY-3);
+    [_searchResultsScrollView setContentOffset:placeOffset animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
