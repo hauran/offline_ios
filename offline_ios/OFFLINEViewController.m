@@ -188,8 +188,7 @@ NSMutableArray *collectionLineCellArray;
     CGPoint bottomOffset = CGPointMake(0, collecitonScrollView.contentSize.height - collecitonScrollView.bounds.size.height);
     [collecitonScrollView setContentOffset:bottomOffset animated:YES];
 }
--(void)back {
-    NSLog(@"BACK");
+-(void)scrollToTop {
     [collecitonScrollView setContentOffset:CGPointZero animated:NO];
 }
 

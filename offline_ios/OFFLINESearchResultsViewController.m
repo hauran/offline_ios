@@ -24,6 +24,7 @@
 @synthesize searchResultsScrollView = _searchResultsScrollView;
 @synthesize searchForLabel = _searchForLabel;
 @synthesize loadingString = _loadingString;
+@synthesize loadingIndicator = _loadingIndicator;
 @synthesize bigLine = _bigLine;
 @synthesize searchLine = _searchLine;
 @synthesize searchFor = _searchFor;
@@ -32,14 +33,13 @@
 @synthesize tableData = _tableData;
 @synthesize selectedStopIndex = _selectedStopIndex;
 
+@synthesize mainViewController = _mainViewController;
+@synthesize searchResults = _searchResults;
+
 
 UIButtonHightlight *newAlarmButton;
 NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
 NSInteger const SELECTED_HEIGHT_DIFF = 385;
-
-@synthesize mainViewController = _mainViewController;
-@synthesize searchResults = _searchResults;
-
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -56,14 +56,29 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+
     _header = [[OFFLINETitleBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
     _header.stopsViewController = self;
     [_header showBackButton];
     [self.view addSubview:_header];
     
+    
     _searchResultsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-60)];
     _searchResultsScrollView.userInteractionEnabled = YES;
     [self.view addSubview:_searchResultsScrollView];
+    
+    
+    _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 75)];
+    [_blurView setTint:[UIColor whiteColor]];
+    [_blurView setBlurRadius:120.0];
+    [self.view addSubview:_blurView];
+    
+    _loadingIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _loadingIndicator.frame = CGRectMake(0.0, 0.0, 80.0, 80.0);
+    _loadingIndicator.center = self.view.center;
+    [self.view addSubview:_loadingIndicator];
+    [_loadingIndicator bringSubviewToFront:self.view];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
 }
 
 
@@ -71,47 +86,63 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     OFFLINELineData *lineData =[[OFFLINELineData alloc] init];
     NSMutableArray *lines = [lineData createLineData];
     
-    _blurView = [[DRNRealTimeBlurView alloc] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 75)];
-    [_blurView setTint:[UIColor whiteColor]];
-    [_blurView setBlurRadius:120.0];
-    
     _searchLine = [_mainViewController getSelectedLine];
     _searchFor = [_mainViewController getSearchString];
+    
+    if(_bigLine != nil){
+        _bigLine.hidden = NO;
+    }
+    else {
+        _bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 60)];
+        _bigLine.font = [UIFont boldSystemFontOfSize:45];
+        _bigLine.textAlignment = NSTextAlignmentCenter;
+        _bigLine.layer.borderColor = [UIColor clearColor].CGColor;
+        _bigLine.layer.cornerRadius = 30;
+        [_blurView addSubview:_bigLine];
+    }
     for (NSMutableDictionary *lineDetails in lines) {
         if ([(NSString *)[lineDetails objectForKey:@"line"] isEqualToString:_searchLine]){
-            _bigLine = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 60, 60)];
-            _bigLine.font = [UIFont boldSystemFontOfSize:45];
-            _bigLine.textAlignment = NSTextAlignmentCenter;
-            _bigLine.layer.borderColor = [UIColor clearColor].CGColor;
-            _bigLine.layer.cornerRadius = 30;
             _bigLine.text = [lineDetails objectForKey:@"line"];
             _bigLine.backgroundColor = [lineDetails objectForKey:@"bgColor"];
             _bigLine.textColor = [lineDetails objectForKey:@"textColor"];
-            [_blurView addSubview:_bigLine];
         }
     }
-    _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
-    [_searchForLabel setFont:[UIFont boldSystemFontOfSize:20.0]];
-    _searchForLabel.textAlignment = NSTextAlignmentLeft;
-    _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
-    _searchForLabel.text = _searchFor;
-    _searchForLabel.textColor = [UIColor darkGrayColor];
-    [_blurView addSubview:_searchForLabel];
     
-    _loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, 100, 80)];
-    [_loadingString setFont:[UIFont systemFontOfSize:20.0]];
-    _loadingString.textAlignment = NSTextAlignmentLeft;
-    _loadingString.layer.borderColor = [UIColor clearColor].CGColor;
-    _loadingString.text = @"Searching...";
-    _loadingString.textColor = [UIColor lightGrayColor];
-    [_blurView addSubview:_loadingString];
     
-    [self.view addSubview:_blurView];
+    if(_searchForLabel != nil){
+        _searchForLabel.text = _searchFor;
+        _searchForLabel.hidden = NO;
+    }
+    else {
+        _searchForLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, self.view.frame.size.width-70, 60)];
+        [_searchForLabel setFont:[UIFont boldSystemFontOfSize:20.0]];
+        _searchForLabel.textAlignment = NSTextAlignmentLeft;
+        _searchForLabel.layer.borderColor = [UIColor clearColor].CGColor;
+        _searchForLabel.text = _searchFor;
+        _searchForLabel.textColor = [UIColor darkGrayColor];
+        [_blurView addSubview:_searchForLabel];
+    }
+    
+    
+    if(_loadingString != nil){
+        _loadingString.hidden = NO;
+    }
+    else {
+        _loadingString = [[UILabel alloc] initWithFrame:CGRectMake(15, 120, 100, 80)];
+        [_loadingString setFont:[UIFont systemFontOfSize:18.0]];
+        _loadingString.textAlignment = NSTextAlignmentLeft;
+        _loadingString.layer.borderColor = [UIColor clearColor].CGColor;
+        _loadingString.text = @"Searching...";
+        _loadingString.textColor = [UIColor lightGrayColor];
+        [self.view addSubview:_loadingString];
+    }
     [self doSearch];
 }
 
 
 -(void) doSearch{
+    [self scrollToTop];
+    [_loadingIndicator startAnimating];
     self.searchResults = [NSMutableData data];
     NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor];
     NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
@@ -166,7 +197,8 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     
     [_searchResultsView setFrame:CGRectMake(0,75,self.view.frame.size.width,y)];
     [_searchResultsScrollView setContentSize:CGSizeMake(self.view.frame.size.width,y+75)];
-    [_loadingString removeFromSuperview];
+    _loadingString.hidden = YES;
+    [_loadingIndicator stopAnimating];
 }
 
 
@@ -238,12 +270,21 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 }
 
 - (void)closeSearchResults  {
-    [_loadingString removeFromSuperview];
-    [_searchForLabel removeFromSuperview];
-    [_bigLine removeFromSuperview];
+    _loadingString.hidden=NO;
+    _searchForLabel.hidden=YES;
+    _bigLine.hidden=YES;
+    for(OFFLINEStopDetails *stop in [_searchResultsView subviews]) {
+        if ([stop isKindOfClass:[OFFLINEStopDetails class]]){
+            [stop removeFromSuperview];
+        }
+    }
     [self dismissViewControllerAnimated:NO completion:^{
-       [_mainViewController back];
+       [_mainViewController scrollToTop];
     }];
+}
+
+-(void)scrollToTop {
+    [_searchResultsScrollView setContentOffset:CGPointZero animated:NO];
 }
 
 @end

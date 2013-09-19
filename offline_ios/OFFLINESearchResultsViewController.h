@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIScrollView *searchResultsScrollView;
 @property (nonatomic, strong) UILabel *searchForLabel;
 @property (nonatomic, strong) UILabel *loadingString;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
 @property (nonatomic, strong) UILabel *bigLine;
 @property (nonatomic, strong) NSString *searchLine;
 @property (nonatomic, strong) NSString *searchFor;

@@ -14,7 +14,7 @@
     UICollectionView *_linesCollectionView;
 }
 
-- (void) back;
+- (void) scrollToTop;
 - (void) selected;
 - (NSString *) getSelectedLine;
 - (NSString *) getSearchString;
