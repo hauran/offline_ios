@@ -10,4 +10,10 @@
 
 @interface OFFLINEYelp : UIView
 
+@property (nonatomic, strong) NSDictionary *place;
+@property (nonatomic, strong) UILabel *loading;
+@property (nonatomic, strong) NSMutableData *yelpData;
+
+- (void) fetch;
+
 @end

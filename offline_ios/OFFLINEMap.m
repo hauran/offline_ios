@@ -17,13 +17,13 @@
         self.backgroundColor = [UIColor whiteColor];
         self.layer.cornerRadius = 3;
         
-        UILabel *mapDetails = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 80)];
-        mapDetails.font = [UIFont systemFontOfSize:15];
-        mapDetails.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
-        mapDetails.textAlignment = NSTextAlignmentLeft;
-        mapDetails.text = @"MAP";
+        UILabel *loading = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, self.bounds.size.width, 20)];
+        loading.font = [UIFont systemFontOfSize:15];
+        loading.textColor = [UIColor colorWithRed:44/255.0f green:62/255.0f blue:80/255.0f alpha:1.0f];
+        loading.textAlignment = NSTextAlignmentLeft;
+        loading.text = @"Loading Map...";
         
-        [self addSubview:mapDetails];
+        [self addSubview:loading];
     }
     return self;
 }

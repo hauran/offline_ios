@@ -24,7 +24,6 @@
 @synthesize searchResultsScrollView = _searchResultsScrollView;
 @synthesize searchForLabel = _searchForLabel;
 @synthesize loadingString = _loadingString;
-@synthesize loadingIndicator = _loadingIndicator;
 @synthesize bigLine = _bigLine;
 @synthesize searchLine = _searchLine;
 @synthesize searchFor = _searchFor;
@@ -72,13 +71,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     [_blurView setTint:[UIColor whiteColor]];
     [_blurView setBlurRadius:120.0];
     [self.view addSubview:_blurView];
-    
-    _loadingIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    _loadingIndicator.frame = CGRectMake(0.0, 0.0, 80.0, 80.0);
-    _loadingIndicator.center = self.view.center;
-    [self.view addSubview:_loadingIndicator];
-    [_loadingIndicator bringSubviewToFront:self.view];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
 }
 
 
@@ -142,7 +134,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 
 -(void) doSearch{
     [self scrollToTop];
-    [_loadingIndicator startAnimating];
     self.searchResults = [NSMutableData data];
     NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor];
     NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
@@ -198,7 +189,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
     [_searchResultsView setFrame:CGRectMake(0,75,self.view.frame.size.width,y)];
     [_searchResultsScrollView setContentSize:CGSizeMake(self.view.frame.size.width,y+75)];
     _loadingString.hidden = YES;
-    [_loadingIndicator stopAnimating];
 }
 
 

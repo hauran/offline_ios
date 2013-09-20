@@ -20,6 +20,7 @@
 @property (nonatomic) bool isSelected;
 @property (nonatomic, strong) OFFLINEYelp *yelpView;
 @property (nonatomic, strong) OFFLINEMap *mapView;
+@property (nonatomic, strong) NSDictionary *place;
 
 - (void)setDetails:(NSDictionary *)placesInfo;
 - (void)selected;

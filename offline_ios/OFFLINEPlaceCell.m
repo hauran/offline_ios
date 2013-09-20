@@ -8,6 +8,9 @@
 
 #import "OFFLINEPlaceCell.h"
 #import "OFFLINEYelp.h"
+#import <QuartzCore/QuartzCore.h>
+#import <Foundation/Foundation.h>
+
 
 @implementation OFFLINEPlaceCell
 
@@ -18,8 +21,11 @@
 @synthesize isSelected = _isSelected;
 @synthesize yelpView = _yelpView;
 @synthesize mapView = _mapView;
+@synthesize place = _place;
+
 
 NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
+
 
 
 
@@ -52,7 +58,7 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
 
 - (void)setDetails:(NSMutableDictionary *)placesInfo {
     _nameLabel.text = [placesInfo objectForKey:@"name"];
-    
+    _place = placesInfo;
     NSString *address=[placesInfo objectForKey:@"vicinity"];
     NSRange range = [address rangeOfString:@"," ];
     if(range.location!=NSNotFound){
@@ -81,8 +87,10 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
         else {
             _mapView = [[OFFLINEMap alloc] initWithFrame:CGRectMake(5, 45, self.bounds.size.width-10, 220)];
             _yelpView = [[OFFLINEYelp alloc] initWithFrame:CGRectMake(5, 270, self.bounds.size.width-10, 150)];
+            _yelpView.place = _place;
             [self addSubview: _mapView];
             [self addSubview: _yelpView];
+            [_yelpView fetch];
         }
         
     }
