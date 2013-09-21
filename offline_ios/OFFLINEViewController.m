@@ -12,6 +12,7 @@
 #import "OFFLINESearchResultsViewController.h"
 #import "UIButtonHightlight.h"
 #import "OFFLINETitleBar.h"
+#import "OFFLINEConst.h"
 #import <QuartzCore/QuartzCore.h>
 #import "fontawesome/NSString+FontAwesome.m"
 
@@ -34,7 +35,6 @@ UIColor *textColor;
 UIButtonHightlight *searchButton;
 OFFLINESearchResultsViewController *searchResults;
 
-NSString *const OFFLINE_SERVER = @"http://dev-offline.jit.su";
 NSDictionary *lineDetails;
 NSMutableArray *collectionLineCellArray;
 

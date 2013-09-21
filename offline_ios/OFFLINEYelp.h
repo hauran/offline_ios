@@ -13,6 +13,8 @@
 @property (nonatomic, strong) NSDictionary *place;
 @property (nonatomic, strong) UILabel *loading;
 @property (nonatomic, strong) NSMutableData *yelpData;
+@property (nonatomic, strong) NSURL *yelpLink;
+@property (nonatomic, strong) NSString *phone;
 
 - (void) fetch;
 

@@ -11,6 +11,7 @@
 #import "fontawesome/NSString+FontAwesome.m"
 #import "DRNRealTimeBlurView.h"
 #import "OFFLINETitleBar.h"
+#import "OFFLINEConst.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Foundation/Foundation.h>
 
@@ -37,8 +38,7 @@
 
 
 UIButtonHightlight *newAlarmButton;
-NSString *const JSON_SERVER = @"http://dev-offline.jit.su";
-NSInteger const SELECTED_HEIGHT_DIFF = 385;
+NSInteger const SELECTED_HEIGHT_DIFF = 533;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -135,7 +135,7 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
 -(void) doSearch{
     [self scrollToTop];
     self.searchResults = [NSMutableData data];
-    NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", JSON_SERVER, _searchLine, _searchFor];
+    NSString *rawURL = [NSString stringWithFormat :@"%@/search/%@/%@", OFFLINE_SERVER, _searchLine, _searchFor];
     NSString *url = [rawURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     NSURLRequest *request = [NSURLRequest requestWithURL: [NSURL URLWithString:url]];
     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -168,7 +168,6 @@ NSInteger const SELECTED_HEIGHT_DIFF = 385;
         NSString *stop_name = [result objectForKey:@"stop_name"];
         NSArray *results = [result objectForKey:@"results"];
         int stopSequence = (NSInteger)[result objectForKey:@"stop_sequence"];
-        NSLog(@"stop: %@ places %D", stop_name, [results count]);
         [_tableData addObject: [[NSDictionary alloc] initWithObjectsAndKeys:stop_name,@"stop", _bigLine.backgroundColor,@"color",results,@"places",stopSequence,@"stopSequence",nil]];
     }
     

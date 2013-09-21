@@ -18,17 +18,25 @@
 		945F08C317E94212000C723A /* OFFLINEYelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C217E94212000C723A /* OFFLINEYelp.m */; };
 		945F08C617E94B79000C723A /* OFFLINEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08C517E94B79000C723A /* OFFLINEMap.m */; };
 		945F08CF17EA1C40000C723A /* OFFLINETitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F08CE17EA1C40000C723A /* OFFLINETitleBar.m */; };
-		C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C519DB3217DD809600438E4E /* FontAwesome.ttf */; };
 		C519DB3617DD809600438E4E /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = C519DB3417DD809600438E4E /* NSString+FontAwesome.m */; };
+		C553E52417ED53C600E2839E /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52317ED53C600E2839E /* libobjc.dylib */; };
+		C553E52617ED53DB00E2839E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52517ED53DB00E2839E /* AVFoundation.framework */; };
+		C553E52817ED53E200E2839E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52717ED53E200E2839E /* CoreData.framework */; };
+		C553E52A17ED53EB00E2839E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52917ED53EB00E2839E /* CoreText.framework */; };
+		C553E52C17ED53F800E2839E /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52B17ED53F800E2839E /* GLKit.framework */; };
+		C553E52E17ED541000E2839E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52D17ED541000E2839E /* ImageIO.framework */; };
+		C553E53017ED541A00E2839E /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E52F17ED541A00E2839E /* libc++.dylib */; };
+		C553E53217ED542300E2839E /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E53117ED542300E2839E /* libicucore.dylib */; };
+		C553E53417ED542F00E2839E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E53317ED542F00E2839E /* libz.dylib */; };
+		C553E53617ED543700E2839E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E53517ED543700E2839E /* OpenGLES.framework */; };
+		C553E53817ED543E00E2839E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E53717ED543E00E2839E /* QuartzCore.framework */; };
+		C553E53A17ED544400E2839E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C553E53917ED544400E2839E /* SystemConfiguration.framework */; };
 		C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
 		C5596DB817BD3CDF00EB9740 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */; };
 		C5596DBA17BD3CDF00EB9740 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB917BD3CDF00EB9740 /* UIKit.framework */; };
-		C5596DC017BD3CDF00EB9740 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5596DBE17BD3CDF00EB9740 /* InfoPlist.strings */; };
 		C5596DC217BD3CDF00EB9740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DC117BD3CDF00EB9740 /* main.m */; };
 		C5596DC617BD3CDF00EB9740 /* OFFLINEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DC517BD3CDF00EB9740 /* OFFLINEAppDelegate.m */; };
-		C5596DC917BD3CDF00EB9740 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5596DC717BD3CDF00EB9740 /* Main.storyboard */; };
 		C5596DCC17BD3CDF00EB9740 /* OFFLINEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596DCB17BD3CDF00EB9740 /* OFFLINEViewController.m */; };
-		C5596DCE17BD3CDF00EB9740 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5596DCD17BD3CDF00EB9740 /* Images.xcassets */; };
 		C5596DD517BD3CDF00EB9740 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DD417BD3CDF00EB9740 /* XCTest.framework */; };
 		C5596DD617BD3CDF00EB9740 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB517BD3CDF00EB9740 /* Foundation.framework */; };
 		C5596DD717BD3CDF00EB9740 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5596DB917BD3CDF00EB9740 /* UIKit.framework */; };
@@ -46,6 +54,8 @@
 		C5596E0A17BD3E8100EB9740 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0017BD3E8100EB9740 /* SBJsonWriter.m */; };
 		C5596E1017C2DDDC00EB9740 /* OFFLINELineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */; };
 		C5A1939317DAD78E0029E830 /* OFFLINELineData.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A1939217DAD78E0029E830 /* OFFLINELineData.m */; };
+		C5D5BB9017ED56EA008F74C2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5BB8F17ED56EA008F74C2 /* CoreFoundation.framework */; };
+		C5D5BB9217ED570C008F74C2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5BB9117ED570C008F74C2 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +93,19 @@
 		C519DB3217DD809600438E4E /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = fontawesome/FontAwesome.ttf; sourceTree = "<group>"; };
 		C519DB3317DD809600438E4E /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FontAwesome.h"; path = "fontawesome/NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		C519DB3417DD809600438E4E /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FontAwesome.m"; path = "fontawesome/NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		C553E51A17ED498100E2839E /* OFFLINEConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OFFLINEConst.h; sourceTree = "<group>"; };
+		C553E52317ED53C600E2839E /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
+		C553E52517ED53DB00E2839E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C553E52717ED53E200E2839E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C553E52917ED53EB00E2839E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		C553E52B17ED53F800E2839E /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		C553E52D17ED541000E2839E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		C553E52F17ED541A00E2839E /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		C553E53117ED542300E2839E /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		C553E53317ED542F00E2839E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		C553E53517ED543700E2839E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		C553E53717ED543E00E2839E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C553E53917ED544400E2839E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C5596DB217BD3CDF00EB9740 /* offline_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = offline_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5596DB517BD3CDF00EB9740 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -127,6 +150,8 @@
 		C5596E0F17C2DDDC00EB9740 /* OFFLINELineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINELineCell.m; sourceTree = "<group>"; };
 		C5A1939117DAD78E0029E830 /* OFFLINELineData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OFFLINELineData.h; sourceTree = "<group>"; };
 		C5A1939217DAD78E0029E830 /* OFFLINELineData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OFFLINELineData.m; sourceTree = "<group>"; };
+		C5D5BB8F17ED56EA008F74C2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		C5D5BB9117ED570C008F74C2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,10 +159,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9433F6A417E57395001B1AD3 /* Accelerate.framework in Frameworks */,
+				C553E52417ED53C600E2839E /* libobjc.dylib in Frameworks */,
+				C5D5BB9017ED56EA008F74C2 /* CoreFoundation.framework in Frameworks */,
+				C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */,
 				C5596DB817BD3CDF00EB9740 /* CoreGraphics.framework in Frameworks */,
 				C5596DBA17BD3CDF00EB9740 /* UIKit.framework in Frameworks */,
-				C5596DB617BD3CDF00EB9740 /* Foundation.framework in Frameworks */,
+				C553E52617ED53DB00E2839E /* AVFoundation.framework in Frameworks */,
+				C553E52817ED53E200E2839E /* CoreData.framework in Frameworks */,
+				C5D5BB9217ED570C008F74C2 /* CoreLocation.framework in Frameworks */,
+				C553E52A17ED53EB00E2839E /* CoreText.framework in Frameworks */,
+				C553E52C17ED53F800E2839E /* GLKit.framework in Frameworks */,
+				C553E52E17ED541000E2839E /* ImageIO.framework in Frameworks */,
+				C553E53017ED541A00E2839E /* libc++.dylib in Frameworks */,
+				C553E53217ED542300E2839E /* libicucore.dylib in Frameworks */,
+				C553E53417ED542F00E2839E /* libz.dylib in Frameworks */,
+				C553E53617ED543700E2839E /* OpenGLES.framework in Frameworks */,
+				C553E53817ED543E00E2839E /* QuartzCore.framework in Frameworks */,
+				C553E53A17ED544400E2839E /* SystemConfiguration.framework in Frameworks */,
+				9433F6A417E57395001B1AD3 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +236,20 @@
 		C5596DB417BD3CDF00EB9740 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C5D5BB9117ED570C008F74C2 /* CoreLocation.framework */,
+				C5D5BB8F17ED56EA008F74C2 /* CoreFoundation.framework */,
+				C553E53917ED544400E2839E /* SystemConfiguration.framework */,
+				C553E53717ED543E00E2839E /* QuartzCore.framework */,
+				C553E53517ED543700E2839E /* OpenGLES.framework */,
+				C553E53317ED542F00E2839E /* libz.dylib */,
+				C553E53117ED542300E2839E /* libicucore.dylib */,
+				C553E52F17ED541A00E2839E /* libc++.dylib */,
+				C553E52D17ED541000E2839E /* ImageIO.framework */,
+				C553E52B17ED53F800E2839E /* GLKit.framework */,
+				C553E52917ED53EB00E2839E /* CoreText.framework */,
+				C553E52717ED53E200E2839E /* CoreData.framework */,
+				C553E52517ED53DB00E2839E /* AVFoundation.framework */,
+				C553E52317ED53C600E2839E /* libobjc.dylib */,
 				9433F6A317E57395001B1AD3 /* Accelerate.framework */,
 				C5596DB517BD3CDF00EB9740 /* Foundation.framework */,
 				C5596DB717BD3CDF00EB9740 /* CoreGraphics.framework */,
@@ -232,6 +285,7 @@
 				945F08C217E94212000C723A /* OFFLINEYelp.m */,
 				945F08C417E94B79000C723A /* OFFLINEMap.h */,
 				945F08C517E94B79000C723A /* OFFLINEMap.m */,
+				C553E51A17ED498100E2839E /* OFFLINEConst.h */,
 				C5596DCD17BD3CDF00EB9740 /* Images.xcassets */,
 				C5596DEB17BD3E6400EB9740 /* JSON Framework */,
 				C5596DBC17BD3CDF00EB9740 /* Supporting Files */,
@@ -309,7 +363,6 @@
 			buildPhases = (
 				C5596DAE17BD3CDF00EB9740 /* Sources */,
 				C5596DAF17BD3CDF00EB9740 /* Frameworks */,
-				C5596DB017BD3CDF00EB9740 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -373,17 +426,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C5596DB017BD3CDF00EB9740 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5596DCE17BD3CDF00EB9740 /* Images.xcassets in Resources */,
-				C5596DC017BD3CDF00EB9740 /* InfoPlist.strings in Resources */,
-				C5596DC917BD3CDF00EB9740 /* Main.storyboard in Resources */,
-				C519DB3517DD809600438E4E /* FontAwesome.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C5596DD117BD3CDF00EB9740 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -547,9 +589,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/hauran/Dropbox/offline_ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "offline_ios/offline_ios-Prefix.pch";
 				INFOPLIST_FILE = "offline_ios/offline_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/hauran/Downloads/GoogleMaps-iOS-1.5.0/GoogleMaps.framework",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -560,9 +610,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/hauran/Dropbox/offline_ios,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "offline_ios/offline_ios-Prefix.pch";
 				INFOPLIST_FILE = "offline_ios/offline_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/hauran/Downloads/GoogleMaps-iOS-1.5.0/GoogleMaps.framework",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

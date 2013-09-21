@@ -24,7 +24,7 @@
 @synthesize stopIndex = _stopIndex;
 @synthesize lineStopsController = _lineStopsController;
 
-NSInteger const SELECTED_PLACE_HEIGHT_DIFF = 385;
+NSInteger const SELECTED_PLACE_HEIGHT_DIFF = 533;
 UITableView *selectedPlacesTable;
 
 

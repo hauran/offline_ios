@@ -203,6 +203,10 @@
     //Render the layer in the image context
     UIGraphicsBeginImageContextWithOptions(visibleRect.size, NO, 1.0);
     CGContextRef context = UIGraphicsGetCurrentContext();
+//    NSLog(@"%@", context);
+    if(context == nil){
+        return;
+    }
     CGContextTranslateCTM(context, -visibleRect.origin.x, -visibleRect.origin.y);
     CALayer *layer = superview.layer;
     [layer renderInContext:context];

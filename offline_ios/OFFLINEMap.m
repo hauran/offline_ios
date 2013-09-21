@@ -7,6 +7,7 @@
 //
 
 #import "OFFLINEMap.h"
+#import "OFFLINEConst.h"
 
 @implementation OFFLINEMap
 
@@ -24,6 +25,12 @@
         loading.text = @"Loading Map...";
         
         [self addSubview:loading];
+        
+        //GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:-33.868
+                                                                //longitude:151.2086
+                                                                  //   zoom:6];
+        //self = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+        
     }
     return self;
 }

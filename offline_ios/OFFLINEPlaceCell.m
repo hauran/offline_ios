@@ -24,7 +24,7 @@
 @synthesize place = _place;
 
 
-NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
+NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 533;
 
 
 
@@ -85,8 +85,8 @@ NSInteger const SELECTED_HEIGHT_DIFF_PLACE = 385;
             _mapView.hidden = NO;
         }
         else {
-            _mapView = [[OFFLINEMap alloc] initWithFrame:CGRectMake(5, 45, self.bounds.size.width-10, 220)];
-            _yelpView = [[OFFLINEYelp alloc] initWithFrame:CGRectMake(5, 270, self.bounds.size.width-10, 150)];
+            _mapView = [[OFFLINEMap alloc] initWithFrame:CGRectMake(5, 45, self.bounds.size.width-10, 300)];
+            _yelpView = [[OFFLINEYelp alloc] initWithFrame:CGRectMake(5, 350, self.bounds.size.width-10, 220)];
             _yelpView.place = _place;
             [self addSubview: _mapView];
             [self addSubview: _yelpView];
